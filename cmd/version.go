@@ -16,9 +16,8 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	jww "github.com/spf13/jwalterweatherman"
 
 	"github.com/jettjia/go-micro-frame-cli/global"
 )
@@ -38,5 +37,5 @@ func init() {
 }
 
 func PrintVersion() {
-	fmt.Println(global.ServerConfig.ProjectName, ": ", global.ServerConfig.Version)
+	jww.FEEDBACK.Printf(global.ServerConfig.ProjectName+":%q\n", global.ServerConfig.Version)
 }

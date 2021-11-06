@@ -16,10 +16,10 @@ limitations under the License.
 package cmd
 
 import (
-	"runtime"
+	"fmt"
 
+	"github.com/gogf/gf/v2/os/gproc"
 	"github.com/spf13/cobra"
-	jww "github.com/spf13/jwalterweatherman"
 )
 
 // envCmd represents the env command
@@ -33,12 +33,24 @@ If you add the -v flag, you will get a full dependency list.
 	Run: func(cmd *cobra.Command, args []string) {
 		PrintVersion()
 
-		jww.FEEDBACK.Printf("GOOS=%q\n", runtime.GOOS)
-		jww.FEEDBACK.Printf("GOARCH=%q\n", runtime.GOARCH)
-		jww.FEEDBACK.Printf("GOVERSION=%q\n", runtime.Version())
+		goenv()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(envCmd)
+}
+
+func goenv() {
+	result, err := gproc.ShellExec("go env")
+	if err != nil{
+		return
+	}
+	if result == "" {
+		return
+	}
+
+	fmt.Println("go env: ")
+	fmt.Println(result)
+	fmt.Println(`-----------------------------------`)
 }
