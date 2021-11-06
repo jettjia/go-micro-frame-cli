@@ -1,5 +1,7 @@
 project_name: go-micro-frame-cli
 version: v1.2.5
+
 env:
   GO111MODULE: on
   GOPROXY: https://goproxy.cn
+  GOVersion: 1.16.7

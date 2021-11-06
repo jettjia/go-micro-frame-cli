@@ -9,4 +9,5 @@ type ServerConfig struct {
 type Env struct {
 	GO111MODULE string `mapstructure:"GO111MODULE" json:"GO111MODULE"`
 	GOPROXY     string `mapstructure:"GOPROXY" json:"GOPROXY"`
+	GOVersion   string `mapstructure:"GOVersion" json:"GOVersion"`
 }

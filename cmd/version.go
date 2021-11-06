@@ -25,7 +25,7 @@ import (
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
-	Short: "Print the version number of go-micro-frame",
+	Short: "Show current binary version info",
 	Long:  `All software has versions. This is go-micro-frame's.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		PrintVersion()
