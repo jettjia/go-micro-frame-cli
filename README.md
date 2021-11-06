@@ -4,8 +4,12 @@ go-micro-frame cli tool
 ```
 git clone git@github.com:jettjia/go-micro-frame-cli.git
 cd go-micro-frame-cli 
+
 go build -ldflags "-w -s" -o go-micro-frame-cli main.go
+or
 go build -ldflags "-w -s" -o go-micro-frame-cli.exe main.go
+
+go-micro-frame-cli install
 ```
 
 
@@ -25,6 +29,7 @@ Available Commands:
   env         Print go-micro-frame version and environment info
   help        Help about any command
   init        create and initialize an empty project
+  install     install gf binary to system (might need root/admin permission)
   version     Show current binary version info
 
 Flags:
@@ -32,6 +37,6 @@ Flags:
   -h, --help            help for go-micro-frame-cli
   -t, --toggle          Help message for toggle
 
-Use "go-micro-frame-cli [command] --help" for more information about a command.   
+Use "go-micro-frame-cli [command] --help" for more information about a command.
 ```
 
