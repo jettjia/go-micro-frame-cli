@@ -21,8 +21,13 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/jettjia/go-micro-frame-cli/cmd"
+import (
+	"github.com/jettjia/go-micro-frame-cli/cmd"
+	"github.com/jettjia/go-micro-frame-cli/initialize"
+)
 
 func main() {
+	initialize.InitConfig()
+
 	cmd.Execute()
 }

@@ -16,27 +16,29 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	"runtime"
 
 	"github.com/spf13/cobra"
-
-	"github.com/jettjia/go-micro-frame-cli/global"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
-// versionCmd represents the version command
-var versionCmd = &cobra.Command{
-	Use:   "version",
-	Short: "Print the version number of go-micro-frame",
-	Long:  `All software has versions. This is go-micro-frame's.`,
+// envCmd represents the env command
+var envCmd = &cobra.Command{
+	Use:   "env",
+	Short: "Print go-micro-frame version and environment info",
+	Long: `Print go-micro-frame version and environment info. This is useful in go-micro-frame bug reports.
+
+If you add the -v flag, you will get a full dependency list.
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		PrintVersion()
+
+		jww.FEEDBACK.Printf("GOOS=%q\n", runtime.GOOS)
+		jww.FEEDBACK.Printf("GOARCH=%q\n", runtime.GOARCH)
+		jww.FEEDBACK.Printf("GOVERSION=%q\n", runtime.Version())
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(versionCmd)
-}
-
-func PrintVersion() {
-	fmt.Println(global.ServerConfig.ProjectName, ": ", global.ServerConfig.Version)
+	rootCmd.AddCommand(envCmd)
 }
