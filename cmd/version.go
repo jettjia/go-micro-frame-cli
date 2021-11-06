@@ -19,7 +19,7 @@ import (
 	"github.com/spf13/cobra"
 	jww "github.com/spf13/jwalterweatherman"
 
-	"github.com/jettjia/go-micro-frame-cli/global"
+	"github.com/jettjia/go-micro-frame-cli/constant"
 )
 
 // versionCmd represents the version command
@@ -37,5 +37,5 @@ func init() {
 }
 
 func PrintVersion() {
-	jww.FEEDBACK.Printf(global.ServerConfig.ProjectName+":%q\n", global.ServerConfig.Version)
+	jww.FEEDBACK.Printf(constant.PROJECTNAME+":%q\n", constant.VERSION)
 }

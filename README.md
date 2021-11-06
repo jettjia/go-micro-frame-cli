@@ -16,12 +16,22 @@ todo
 
 ```
 $ go-micro-frame-cli
-USAGE
-    go-micro-frame-cli COMMAND [ARGUMENT] [OPTION]
 
-COMMAND
-    env        show current Golang environment variables
-    
-   
+Usage:
+  go-micro-frame-cli [command]
+
+Available Commands:
+  completion  generate the autocompletion script for the specified shell
+  env         Print go-micro-frame version and environment info
+  help        Help about any command
+  init        create and initialize an empty project
+  version     Show current binary version info
+
+Flags:
+      --config string   config file (default is $HOME/.go-micro-frame-cli.yaml)
+  -h, --help            help for go-micro-frame-cli
+  -t, --toggle          Help message for toggle
+
+Use "go-micro-frame-cli [command] --help" for more information about a command.   
 ```
 
