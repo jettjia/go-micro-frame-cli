@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
+	"log"
 
 	"github.com/jettjia/go-micro-frame-cli/cmd/initialize"
 )
@@ -14,7 +14,7 @@ var initCmd = &cobra.Command{
 	Long:  `create and initialize an empty project...`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
-			fmt.Println("Please enter project name")
+			log.Println("Please enter project name")
 			return
 		}
 		initialize.InitSrv(args)

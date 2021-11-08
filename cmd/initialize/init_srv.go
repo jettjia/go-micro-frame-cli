@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"strings"
 
 	"github.com/gogf/gf-cli/v2/library/allyes"
@@ -28,15 +28,15 @@ func InitSrv(args []string) {
 		}
 	}
 
-	fmt.Println("initializing...")
+	log.Println("initializing...")
 	//从github 拉取项目
 	respMd5, err := g.Client().Get(context.TODO(), emptySrvProjectName+"/archive/refs/heads/master.zip")
 	if err != nil {
-		fmt.Printf("get the project zip md5 failed: %s\n", err.Error())
+		log.Printf("get the project zip md5 failed: %s\n", err.Error())
 		return
 	}
 	if respMd5 == nil {
-		fmt.Println("got the project zip md5 failed")
+		log.Println("got the project zip md5 failed")
 		return
 	}
 
@@ -44,16 +44,15 @@ func InitSrv(args []string) {
 	md5DataStr := respMd5.ReadAllString()
 
 	if md5DataStr == "" {
-		fmt.Println("get the project zip md5 failed: empty md5 value. maybe network issue, try again?")
+		log.Println("get the project zip md5 failed: empty md5 value. maybe network issue, try again?")
 		return
 	}
 
 	// Unzip the zip data.
 	if err = gcompress.UnZipContent([]byte(md5DataStr), projectName); err != nil {
-		fmt.Println("unzip project data failed,", err.Error())
-
+		log.Println("unzip project data failed,", err.Error())
 		return
 	}
 
-	fmt.Println("initialization done! ")
+	log.Println("initialization done! ")
 }

@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/jettjia/go-micro-frame-cli/cmd/build"
-
 	"github.com/spf13/cobra"
+	"log"
+
+	"github.com/jettjia/go-micro-frame-cli/cmd/build"
 )
 
 // buildCmd represents the build command
@@ -14,13 +14,13 @@ var buildCmd = &cobra.Command{
 	Long:  `build go project`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
-			fmt.Println("Please enter file, like main.go")
+			log.Println("Please enter file, like main.go")
 			return
 		}
 		//处理传入的参数
 		name, err := cmd.Flags().GetString("name")
 		if err != nil {
-			fmt.Println("Please enter output file name, like main")
+			log.Println("Please enter output file name, like main")
 			return
 		}
 		build.Run(args, name)
