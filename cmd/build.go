@@ -1,26 +1,10 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
 	"fmt"
+	"github.com/jettjia/go-micro-frame-cli/cmd/build"
 
 	"github.com/spf13/cobra"
-
-	"github.com/jettjia/go-micro-frame-cli/cmd/build"
 )
 
 // buildCmd represents the build command
@@ -33,10 +17,18 @@ var buildCmd = &cobra.Command{
 			fmt.Println("Please enter file, like main.go")
 			return
 		}
-		build.Run(args)
+		//处理传入的参数
+		name, err := cmd.Flags().GetString("name")
+		if err != nil {
+			fmt.Println("Please enter output file name, like main")
+			return
+		}
+		build.Run(args, name)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(buildCmd)
+	// 接受传入的参数：name， 短拼是：n， 默认值是：main， 提示信息是： 编译后文件名字
+	buildCmd.Flags().StringP("name", "n", "main", "output file name")
 }
