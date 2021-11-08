@@ -25,7 +25,10 @@ Usage:
   go-micro-frame-cli [command]
 
 Available Commands:
+  build       build go project
   completion  generate the autocompletion script for the specified shell
+  docker      create a docker image for current project
+  drone       create .drone for ci/cd
   env         Print go-micro-frame version and environment info
   help        Help about any command
   init        create and initialize an empty project
