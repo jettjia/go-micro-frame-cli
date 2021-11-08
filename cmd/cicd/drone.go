@@ -3,7 +3,6 @@ package cicd
 import (
 	"github.com/jettjia/go-micro-frame-cli/util"
 	"log"
-	"strings"
 )
 
 var (
@@ -102,11 +101,10 @@ volumes:
 
 // Run 当前项目生成 dockerfile 文件
 func Run(args []string) {
-	imgName := args[0]
+	//imgName := args[0]
 
-	log.Println("create Dockerfile start ...")
-	newStr := strings.Replace(oldStr, "srv-example", imgName, -1)
+	log.Println("create .drone start ...")
 
-	util.WriteStringToFileMethod("Dockerfile", newStr)
+	util.WriteStringToFileMethod(".drone.yml", oldStr)
 	log.Println("Done")
 }
