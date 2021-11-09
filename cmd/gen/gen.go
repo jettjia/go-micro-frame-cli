@@ -24,15 +24,16 @@ func Run() {
 	GenService(genReq)
 
 	// 6. 生成 handler
-	GenHandler(genReq)
+	GenHandler(genReq) // todo
 
 	// 7. 生成 initialize
 	GenInitlialize(genReq)
 
 	// 8. 生成 proto
-	GenProto(genReq)
+	GenProto(genReq) // todo
 
 	// 9. 生成 测试代码
+	GenCeshi() // todo
 
 	// 10.格式化代码
 	util.GoFmt(genReq.BaseDir)

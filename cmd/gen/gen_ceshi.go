@@ -1,1 +1,5 @@
 package gen
+
+func GenCeshi() {
+
+}
