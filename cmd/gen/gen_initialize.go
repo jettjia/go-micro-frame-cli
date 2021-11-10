@@ -16,7 +16,7 @@ import (
 	"goods_srv/domain/repository"
 	service2 "goods_srv/domain/service"
 	"goods_srv/handler"
-	goods_proto "goods_srv/proto/goods_proto"
+	goods_srv "goods_srv/proto/goods_srv"
 )
 
 func RegisterSrv(server *grpc.Server) {
@@ -24,7 +24,7 @@ func RegisterSrv(server *grpc.Server) {
 	categoryService := service2.NewCategoryService(repository.NewCategoryRepository())
 	
 
-	goods_proto.RegisterGoodsServer(server, &handler.GoodsServer{
+	goods_srv.RegisterGoodsServer(server, &handler.GoodsServer{
 		CategoryService:          categoryService,
 	})
 }
@@ -34,7 +34,7 @@ func RegisterSrv(server *grpc.Server) {
 func GenInitlialize(req GenReq) {
 	var newStr string
 	newStr = strings.Replace(regSrv, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newStr = strings.Replace(regSrv, "goods_srv", req.SrvName, -1)
+	newStr = strings.Replace(newStr, "goods_srv", req.SrvName, -1)
 
 	util.WriteStringToFileMethod(req.InitializeDir+"/registerSrv.go", newStr)
 }

@@ -30,7 +30,7 @@ func Run() {
 	GenInitlialize(genReq)
 
 	// 8. 生成 proto
-	GenProto(genReq) // todo
+	GenProto(genReq)
 
 	// 9. 生成 测试代码
 	GenCeshi() // todo

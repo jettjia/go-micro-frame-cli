@@ -135,8 +135,8 @@ func (u *CategoryRepository) FindPage(conditions []*goods_proto.Query, reqPage *
 func doGenRepository(req GenReq) {
 	var newRep string
 	newRep = strings.Replace(repStr, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newRep = strings.Replace(repStr, "tableName", req.TableName, -1)
-	newRep = strings.Replace(repStr, "goods_srv", req.SrvName, -1)
+	newRep = strings.Replace(newRep, "tableName", req.TableName, -1)
+	newRep = strings.Replace(newRep, "goods_srv", req.SrvName, -1)
 
 	util.WriteStringToFileMethod(req.RepositoryDir+"/"+req.TableName+"_repository.go", newRep)
 }
