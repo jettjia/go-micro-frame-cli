@@ -81,17 +81,28 @@ import public "google/protobuf/timestamp.proto";
 `
 
 	str += "\n"
+
+	// req
 	str += `message CategoryInfoRequest {`
 	str += "\n"
-
 	for k, v := range req.TableColumns {
 		typeName := genFieldForProtoMessage(v)
-		str += fmt.Sprintf("%s %s = %d;//%s", typeName, v.Field, k, v.Comment) + "\n"
+		str += "    "+fmt.Sprintf("%s %s = %d;//%s", typeName, v.Field, k+1, v.Comment) + "\n"
 	}
-
 	str += "\n"
 	str += `}`
+	str += "\n"
 
+
+	// res
+	str += `message CategoryInfoResponse {`
+	str += "\n"
+	for k, v := range req.TableColumns {
+		typeName := genFieldForProtoMessage(v)
+		str += "    "+fmt.Sprintf("%s %s = %d;//%s", typeName, v.Field, k+1, v.Comment) + "\n"
+	}
+	str += "\n"
+	str += `}`
 	str += "\n"
 
 	str += `message CategoryDeleteRequest {
