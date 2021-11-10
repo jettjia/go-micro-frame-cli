@@ -63,9 +63,8 @@ func (u *CategoryService) FindPage(ctx context.Context, query []*goods_srv.Query
 }`
 )
 func GenService(req GenReq) {
-	var newService string
-	newService = strings.Replace(serviceStr, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newService = strings.Replace(serviceStr, "goods_srv", req.SrvName, -1)
+	newService := strings.Replace(serviceStr, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
+	newService = strings.Replace(newService, "goods_srv", req.SrvName, -1)
 
 	util.WriteStringToFileMethod(req.ServiceDir+"/"+req.TableName+"_service.go", newService)
 }

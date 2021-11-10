@@ -32,8 +32,7 @@ func RegisterSrv(server *grpc.Server) {
 )
 
 func GenInitlialize(req GenReq) {
-	var newStr string
-	newStr = strings.Replace(regSrv, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
+	newStr := strings.Replace(regSrv, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
 	newStr = strings.Replace(newStr, "goods_srv", req.SrvName, -1)
 
 	util.WriteStringToFileMethod(req.InitializeDir+"/registerSrv.go", newStr)
