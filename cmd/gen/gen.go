@@ -9,7 +9,7 @@ func Run() {
 	// 1. 获取表完整结构信息
 	InitDB("10.4.7.71", "3307", "root", "root", "zhe_pms")
 
-	genReq := GenInit("goods_srv", "category")
+	genReq := GenInit("goods_srv", "product")
 
 	// 2. 生成项目文件结构
 	CreateDir(genReq)
