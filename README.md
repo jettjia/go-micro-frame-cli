@@ -30,6 +30,8 @@ Available Commands:
   docker      create a docker image for current project
   drone       create .drone for ci/cd
   env         Print go-micro-frame version and environment info
+  gen         automatically generate go files for ORM model,service, repository, handler, pb
+  gofmt       gofmt your project
   help        Help about any command
   init        create and initialize an empty project
   install     install gf binary to system (might need root/admin permission)
