@@ -1,8 +1,7 @@
 package gen
 
 import (
-	"go.uber.org/zap"
-
+	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/util/gconv"
 	mySql "github.com/jettjia/go-micro-frame/service/gmysql"
 )
@@ -15,6 +14,11 @@ func GetTableCol(table string) []TableColumn {
 }
 
 func InitDB(host, port, user, password, db string) {
+	defer func() {
+		if err := recover(); err != nil {
+			mlog.Fatal("db connect err:%v", err)
+		}
+	}()
 	m := &mySql.Mysql{
 		Host:     host,
 		Port:     gconv.Int(port),
@@ -26,6 +30,6 @@ func InitDB(host, port, user, password, db string) {
 	var err error
 	DB, err = m.GetDB()
 	if err != nil {
-		zap.S().Error("db connect err:", err.Error())
+		mlog.Fatal("db connect err:%v", err)
 	}
 }

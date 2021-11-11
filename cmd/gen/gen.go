@@ -1,16 +1,18 @@
 package gen
 
 import (
+	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/jettjia/go-micro-frame-cli/util"
 	"os"
 )
 
-func Run() {
+func Run(host, user, password, port, db, table, serverName string) {
 	// 1. 获取表完整结构信息
-	InitDB("10.4.7.71", "3307", "root", "root", "zhe_pms")
+	InitDB(host, port, user, password, db)
 
-	genReq := GenInit("goods_srv", "product")
+	genReq := GenInit(serverName, table)
 
+	mlog.Print("auto gen code start...")
 	// 2. 生成项目文件结构
 	CreateDir(genReq)
 
@@ -24,7 +26,7 @@ func Run() {
 	GenService(genReq)
 
 	// 6. 生成 handler
-	GenHandler(genReq) // todo
+	GenHandler(genReq)
 
 	// 7. 生成 initialize
 	GenInitlialize(genReq)
@@ -37,6 +39,8 @@ func Run() {
 
 	// 10.格式化代码
 	util.GoFmt(genReq.BaseDir)
+
+	mlog.Print("done!")
 }
 
 // 创建需要的文件夹

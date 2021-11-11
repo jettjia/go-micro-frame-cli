@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
-	"log"
-
+	"github.com/gogf/gf-cli/v2/library/mlog"
+	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/jettjia/go-micro-frame-cli/cmd/build"
+	"github.com/spf13/cobra"
 )
 
 // buildCmd represents the build command
@@ -14,13 +14,13 @@ var buildCmd = &cobra.Command{
 	Long:  `build go project`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
-			log.Println("Please enter file, like main.go")
+			helpBuild()
 			return
 		}
 		//处理传入的参数
 		name, err := cmd.Flags().GetString("name")
 		if err != nil {
-			log.Println("Please enter output file name, like main")
+			helpBuild()
 			return
 		}
 		build.Run(args, name)
@@ -31,4 +31,18 @@ func init() {
 	rootCmd.AddCommand(buildCmd)
 	// 接受传入的参数：name， 短拼是：n， 默认值是：main， 提示信息是： 编译后文件名字
 	buildCmd.Flags().StringP("name", "n", "main", "output file name")
+}
+
+func helpBuild() {
+	mlog.Print(gstr.TrimLeft(`
+USAGE
+    go-micro-frame-cli build [OPTION]
+
+ARGUMENT
+    OPTION
+	-n	output file name
+
+EXAMPLES
+    go-micro-frame-cli build main.go -n main
+`))
 }
