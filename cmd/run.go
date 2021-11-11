@@ -7,10 +7,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	serviceList = "Install common services, like mysql, go"
+)
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Install common services, like mysql, redis...",
-	Long:  `Install common services, like mysql, redis...`,
+	Short: serviceList,
+	Long:  serviceList,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			helpRun()
@@ -32,5 +35,6 @@ USAGE
 
 EXAMPLES
 	go-micro-frame-cli run mysql		[Initialize service]
+	go-micro-frame-cli run go		[Initialize go env, 1.16.7]
 `))
 }
