@@ -14,6 +14,7 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			helpRun()
+			return
 		}
 
 		ops.RunOps(args)
