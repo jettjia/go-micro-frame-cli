@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	addr, user, cipher, port, db, table, serverName string
+	addr, user, pwd, port, db, table, serverName string
 )
 
 // genCmd represents the gen command
@@ -21,7 +21,7 @@ var genCmd = &cobra.Command{
 			help()
 			return
 		}
-		gen.Run(addr, user, cipher, port, db, table, serverName)
+		gen.Run(addr, user, pwd, port, db, table, serverName)
 	},
 }
 
@@ -29,7 +29,7 @@ func init() {
 	rootCmd.AddCommand(genCmd)
 	genCmd.Flags().StringVarP(&addr, "addr", "a", "127.0.0.1", "Enter MySQL addr")
 	genCmd.Flags().StringVarP(&user, "user", "u", "root", "Enter MySQL user")
-	genCmd.Flags().StringVarP(&cipher, "cipher", "c", "root", "Enter MySQL password")
+	genCmd.Flags().StringVarP(&pwd, "pwd", "", "root", "Enter MySQL password")
 	genCmd.Flags().StringVarP(&port, "port", "p", "3306", "Enter MySQL port")
 	genCmd.Flags().StringVarP(&db, "db", "d", "", "Enter MySQL database")
 	genCmd.Flags().StringVarP(&table, "table", "t", "", "Enter MySQL table")
@@ -45,7 +45,7 @@ ARGUMENT
     OPTION
 	-a	Enter MySQL addr 
 	-u	Enter MySQL user 
-	-c	Enter MySQL password 
+	-pwd	Enter MySQL password 
 	-p	Enter MySQL port 
 	-d	Enter MySQL database 
 	-t	Enter MySQL table 
