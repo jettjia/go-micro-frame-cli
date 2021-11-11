@@ -1,6 +1,9 @@
 package cmd
 
 import (
+	"fmt"
+	"runtime"
+
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops"
@@ -15,6 +18,11 @@ var runCmd = &cobra.Command{
 	Short: serviceList,
 	Long:  serviceList,
 	Run: func(cmd *cobra.Command, args []string) {
+		if runtime.GOOS != "linux" {
+			mlog.Print("The run command must be in linux")
+			return
+		}
+
 		if len(args) == 0 {
 			helpRun()
 			return
