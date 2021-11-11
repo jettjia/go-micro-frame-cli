@@ -31,7 +31,7 @@ func init() {
 func helpRun() {
 	mlog.Print(gstr.TrimLeft(`
 USAGE
-    go-micro-frame-cli run
+    go-micro-frame-cli run xx
 
 EXAMPLES
 	go-micro-frame-cli run mysql		[Initialize service]

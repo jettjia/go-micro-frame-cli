@@ -3,11 +3,13 @@ package initGo
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/v2/os/gproc"
+
+	"github.com/jettjia/go-micro-frame-cli/constant"
 	"github.com/jettjia/go-micro-frame-cli/util"
 )
 
 func RunGo() {
-	goversion := "go1.16.7"
+	goversion := "go" + constant.GOVERSION
 	goZipFile := goversion + ".linux-amd64.tar.gz"
 
 	mlog.Print("init " + goversion + " start...")

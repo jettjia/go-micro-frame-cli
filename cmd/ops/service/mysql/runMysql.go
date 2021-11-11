@@ -3,25 +3,32 @@ package mysql
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/v2/os/gproc"
+	"github.com/jettjia/go-micro-frame-cli/constant"
 	"github.com/jettjia/go-micro-frame-cli/util"
 )
 
 // RunMysql 安装mysql 5.7
 func RunMysql() {
-	mlog.Print("init mysql5.7 start...")
+	mlog.Print("init mysql:" + constant.MysqlVersion + " start...")
 
 	// docker pull image
-	_, _ = gproc.ShellExec("sudo docker pull mysql:5.7")
+	_, err := gproc.ShellExec("sudo docker pull mysql:" + constant.MysqlVersion)
+	if err != nil {
+		mlog.Fatal("pull mysql image err", err)
+	}
 
 	// docker run mysql
-	_, _ = gproc.ShellExec(`
-sudo docker run -p 3306:3306 --name mysql \
+	_, err = gproc.ShellExec(`
+sudo docker run -p 3306:3306 --name `+constant.MysqlName+` \
 -v /mydata/mysql/log:/var/log/mysql \
 -v /mydata/mysql/data:/var/lib/mysql \
 -v /mydata/mysql/conf:/etc/mysql \
 -e MYSQL_ROOT_PASSWORD=root \
--d mysql:5.7
-`)
+-d mysql:`+constant.MysqlVersion)
+
+	if err != nil {
+		mlog.Fatal("run mysql err", err)
+	}
 
 	// write config
 	configStr := `
@@ -40,7 +47,10 @@ skip-name-resolve
 	util.WriteStringToFileMethod("/mydata/mysql/conf/my.conf", configStr)
 
 	// start docker
-	_, _ = gproc.ShellExec("sudo docker restart mysql")
+	_, err = gproc.ShellExec("sudo docker restart "+ constant.MysqlName)
+	if err != nil {
+		mlog.Fatal("docker restart mysql err", err)
+	}
 
 	mlog.Print("done!")
 }

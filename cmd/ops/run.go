@@ -3,6 +3,7 @@ package ops
 import (
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/initGo"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/mysql"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/redis"
 )
 
 func RunOps(args []string) {
@@ -10,6 +11,10 @@ func RunOps(args []string) {
 
 	if serviceName == "mysql" {
 		mysql.RunMysql()
+	}
+
+	if serviceName == "redis" {
+		redis.RunRedis()
 	}
 
 	if serviceName == "go" {
