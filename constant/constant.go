@@ -13,4 +13,7 @@ const (
 
 	RedisVersion = "6.2"
 	RedisName = "redis-jett"
+
+	RabbitmqVersion = "3.7.7-management"
+	RabbitmqName = "rabbit-jett"
 )

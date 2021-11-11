@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"runtime"
 
 	"github.com/gogf/gf-cli/v2/library/mlog"
@@ -11,11 +10,16 @@ import (
 )
 
 var (
-	serviceList = "Install common services, like mysql, go"
+	serviceList = `Install common service, like:
+	go-micro-frame-cli run mysql
+	go-micro-frame-cli run redis
+	go-micro-frame-cli run rabbit
+	go-micro-frame-cli run go
+`
 )
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: serviceList,
+	Short: "Install common service, like go-micro-frame-cli run mysql",
 	Long:  serviceList,
 	Run: func(cmd *cobra.Command, args []string) {
 		if runtime.GOOS != "linux" {
@@ -42,7 +46,9 @@ USAGE
     go-micro-frame-cli run xx
 
 EXAMPLES
-	go-micro-frame-cli run mysql		[Initialize service]
+	go-micro-frame-cli run mysql		[Initialize mysql,5.7]
+	go-micro-frame-cli run redis		[Initialize redis,6.2]
+	go-micro-frame-cli run rabbit		[Initialize rabbit,3.7.7-management]
 	go-micro-frame-cli run go		[Initialize go env, 1.16.7]
 `))
 }
