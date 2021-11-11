@@ -5,9 +5,7 @@ go-micro-frame cli tool
 git clone git@github.com:jettjia/go-micro-frame-cli.git
 cd go-micro-frame-cli 
 
-go build -ldflags "-w -s" -o go-micro-frame-cli main.go
-or
-go build -ldflags "-w -s" -o go-micro-frame-cli.exe main.go
+go build
 
 go-micro-frame-cli install
 ```
@@ -15,8 +13,6 @@ go-micro-frame-cli install
 
 
 # Command
-
-todo
 
 ```
 $ go-micro-frame-cli
@@ -35,6 +31,8 @@ Available Commands:
   help        Help about any command
   init        create and initialize an empty project
   install     install gf binary to system (might need root/admin permission)
+  run         Install common service, like go-micro-frame-cli run mysql
+  start       A brief description of your command
   version     Show current binary version info
 
 Flags:
