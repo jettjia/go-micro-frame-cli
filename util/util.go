@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"github.com/gogf/gf/v2/os/gproc"
 	"io"
 	"log"
 	"os"
@@ -70,4 +71,16 @@ func IfNoFileToCreate(fileName string) (file *os.File) {
 		defer f.Close()
 	}
 	return f
+}
+
+// GoFmt formats the source file using command `gofmt -w -s PATH`.
+var (
+	// gofmtPath is the binary path of command `gofmt`.
+	gofmtPath = gproc.SearchBinaryPath("gofmt")
+)
+
+func GoFmt(path string) {
+	if gofmtPath != "" {
+		gproc.ShellExec(fmt.Sprintf(`%s -w -s %s`, gofmtPath, path))
+	}
 }
