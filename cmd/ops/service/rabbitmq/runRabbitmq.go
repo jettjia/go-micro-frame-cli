@@ -23,6 +23,6 @@ func RunRabbit() {
 		return
 	}
 
-	mlog.Print("The background account password is:admin/123456，Please keep it properly")
+	mlog.Print("The background account password is admin/123456，Please keep it properly")
 	mlog.Print("done!")
 }

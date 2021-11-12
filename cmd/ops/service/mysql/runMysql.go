@@ -52,5 +52,6 @@ skip-name-resolve
 		mlog.Fatal("docker restart mysql err", err)
 	}
 
+	mlog.Print("The Mysql account password is root/root，Please keep it properly")
 	mlog.Print("done!")
 }

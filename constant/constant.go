@@ -16,4 +16,13 @@ const (
 
 	RabbitmqVersion = "3.7.7-management"
 	RabbitmqName = "rabbit-jett"
+
+	NacosVersion = "latest"
+	NacosName = "nacos-jett"
+
+	JaegerVersion = "latest"
+	JaegerName = "jaeger-jett"
+
+	ConsulVersion = "latest"
+	ConsulName = "consul-jett"
 )

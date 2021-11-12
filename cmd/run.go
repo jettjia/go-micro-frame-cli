@@ -14,6 +14,10 @@ var (
 	go-micro-frame-cli run mysql
 	go-micro-frame-cli run redis
 	go-micro-frame-cli run rabbit
+	go-micro-frame-cli run consul
+	go-micro-frame-cli run jaeger
+	go-micro-frame-cli run nacos
+	go-micro-frame-cli run konga
 	go-micro-frame-cli run go
 `
 )
@@ -49,6 +53,10 @@ EXAMPLES
 	go-micro-frame-cli run mysql		[Initialize mysql,5.7]
 	go-micro-frame-cli run redis		[Initialize redis,6.2]
 	go-micro-frame-cli run rabbit		[Initialize rabbit,3.7.7-management]
+	go-micro-frame-cli run consul		[Initialize run,latest]
+	go-micro-frame-cli run nacos		[Initialize nacos,latest]
+	go-micro-frame-cli run jaeger		[Initialize jaeger,latest]
+	go-micro-frame-cli run konga		[Initialize konga,latest]
 	go-micro-frame-cli run go		[Initialize go env, 1.16.7]
 `))
 }

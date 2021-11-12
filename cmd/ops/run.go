@@ -1,7 +1,12 @@
 package ops
 
 import (
+	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/initGo"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/micro/consul"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/micro/jaeger"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/micro/konga"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/micro/nacos"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/mysql"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/rabbitmq"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/redis"
@@ -10,19 +15,43 @@ import (
 func RunOps(args []string) {
 	serviceName := args[0]
 
-	if serviceName == "mysql" {
-		mysql.RunMysql()
+	// 基础服务
+	{
+		if serviceName == "mysql" {
+			mysql.RunMysql()
+		}
+
+		if serviceName == "redis" {
+			redis.RunRedis()
+		}
+
+		if serviceName == "rabbit" || serviceName == "rabbitmq" {
+			rabbitmq.RunRabbit()
+		}
 	}
 
-	if serviceName == "redis" {
-		redis.RunRedis()
+	// micro service
+	{
+		if serviceName == "nacos" {
+			nacos.RunNacos()
+		}
+		if serviceName == "jaeger" {
+			jaeger.RunJaeger()
+		}
+		if serviceName == "konga" {
+			konga.RunKonga()
+		}
+		if serviceName == "consul" {
+			consul.RunConsul()
+		}
 	}
 
-	if serviceName == "rabbit" || serviceName == "rabbitmq" {
-		rabbitmq.RunRabbit()
+	// 项目环境
+	{
+		if serviceName == "go" {
+			initGo.RunGo()
+		}
 	}
 
-	if serviceName == "go" {
-		initGo.RunGo()
-	}
+	mlog.Print("The Command not found")
 }
