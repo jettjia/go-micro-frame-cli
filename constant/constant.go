@@ -7,7 +7,6 @@ const (
 	GOPROXY = "https://goproxy.cn"
 	GOVERSION = "1.16.7"
 
-
 	MysqlVersion = "5.7"
 	MysqlName = "mysql-jett"
 
@@ -25,4 +24,14 @@ const (
 
 	ConsulVersion = "latest"
 	ConsulName = "consul-jett"
+
+	// install kong/konga
+	//// konga依赖的 postgres数据库信息
+	PostgresName = "kong-database-jett"
+	PostgresDBUser = "kong"
+	PostgresDB = "kong"
+	PostgresPwd = "kong"
+	//// kong/konga
+	KongVersion = "2.5.0"
+	KongaName = "konga-jett"
 )

@@ -2,10 +2,11 @@ package gen
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/jettjia/go-micro-frame-cli/util"
-	"strings"
 )
 
 func GenProto(req GenReq) {
