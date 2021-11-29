@@ -8,20 +8,20 @@ import (
 )
 
 var (
-	addr, user, pwd, port, db, table, serverName string
+	addr, user, pwd, port, db, table, serverName, protoName string
 )
 
 // genCmd represents the gen command
 var genCmd = &cobra.Command{
 	Use:   "gen",
-	Short: "automatically generate go files for ORM model,service, repository, handler, pb",
-	Long:  `automatically generate go files for ORM model,service, repository, handler, pb`,
+	Short: "automatically generate go files for ORM model, service, repository, handler, pb",
+	Long:  `automatically generate go files for ORM model, service, repository, handler, pb`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(addr) == 0 || len(user) == 0 || len(port) == 0 || len(db) == 0 || len(table) == 0 || len(serverName) == 0 {
 			help()
 			return
 		}
-		gen.Run(addr, user, pwd, port, db, table, serverName)
+		gen.Run(addr, user, pwd, port, db, table, serverName, protoName)
 	},
 }
 
@@ -33,7 +33,8 @@ func init() {
 	genCmd.Flags().StringVarP(&port, "port", "p", "3306", "Enter MySQL port")
 	genCmd.Flags().StringVarP(&db, "db", "d", "", "Enter MySQL database")
 	genCmd.Flags().StringVarP(&table, "table", "t", "", "Enter MySQL table")
-	genCmd.Flags().StringVarP(&serverName, "serverName", "s", "", "Enter project server name")
+	genCmd.Flags().StringVarP(&serverName, "serverName", "sn", "", "Enter project server name")
+	genCmd.Flags().StringVarP(&protoName, "protoName", "pn", "", "Enter project protoName")
 }
 
 func help() {
@@ -49,9 +50,10 @@ ARGUMENT
 	-p	Enter MySQL port 
 	-d	Enter MySQL database 
 	-t	Enter MySQL table 
-	-s	Enter project server name 
+	-sn	Enter project server name
+	-pn	Enter project proto name
 
 EXAMPLES
-    go-micro-frame-cli gen -a 10.4.7.71 -u root -c root -p 3307 -d zhe_pms -t product -s goods_srv
+    go-micro-frame-cli gen -a 10.4.7.71 -u root -c root -p 3307 -d zhe_pms -t product -sn goods-srv -pn goods 
 `))
 }

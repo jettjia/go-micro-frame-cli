@@ -1,20 +1,48 @@
 package gen
 
 import (
+	"strings"
+
+	"github.com/gogf/gf-cli/v2/library/mlog"
+	"github.com/gogf/gf-cli/v2/library/utils"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/jettjia/go-micro-frame-cli/util"
-	"strings"
 )
 
+// GenModel 生成 model
 func GenModel(req GenReq) {
-	// gen_base
-	DoGenBase(req)
-	DoGenCommon(req)
-	DoGenModel(req)
+	doGenModelBase(req)
+	doGenModelCommon(req)
+	doGenModel(req)
 }
 
-func DoGenModel(req GenReq) {
+func doGenModelBase(req GenReq) {
+	path := req.ModelDir + "/base.go"
+	if err := gfile.PutContents(path, strings.TrimSpace(baseTemplateContext)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
+}
+
+func doGenModelCommon(req GenReq) {
+	path := req.ModelDir + "/common.go"
+	context := gstr.ReplaceByMap(commonTemplateContext, g.MapStrStr{
+		"goodsProto":                req.ProtoName + "Proto",
+		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+	})
+	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
+}
+
+func doGenModel(req GenReq) {
 	columnStr := "\n"
 
 	for _, v := range req.TableColumns {
@@ -33,7 +61,13 @@ type ` + GetJsonTagFromCase(req.TableName, "Camel") + ` struct {
 	BaseModel` + columnStr +
 		`}`
 
-	util.WriteStringToFileMethod(req.ModelDir+"/"+req.TableName+".go", str)
+	path := req.ModelDir + "/" + req.TableName + ".go"
+	if err := gfile.PutContents(path, strings.TrimSpace(str)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
 }
 
 // generateStructFieldForModel 获取字段解析后的 type所索要的类型
@@ -161,4 +195,57 @@ func GetJsonTagFromCase(str, caseStr string) string {
 		return gstr.CaseSnakeScreaming(str)
 	}
 	return str
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+func GenRepository(req GenReq) {
+	doGenRepositoryBase(req)
+	doGenRepository(req)
+}
+
+func doGenRepositoryBase(req GenReq) {
+	path := req.RepositoryDir + "/base.go"
+	if err := gfile.PutContents(path, strings.TrimSpace(repositoryBaseTemplate)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
+}
+
+func doGenRepository(req GenReq) {
+	path := req.RepositoryDir + "/" + req.TableName + "_repository.go"
+
+	context := gstr.ReplaceByMap(repositoryTemplate, g.MapStrStr{
+		"goods-srv":                 req.SrvName,
+		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
+		"tableName":                 req.TableName,
+		"goodsProto":                req.ProtoName + "Proto",
+		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+	})
+	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+func GenService(req GenReq) {
+	path := req.ServiceDir + "/" + req.TableName + "_service.go"
+
+	context := gstr.ReplaceByMap(serviceTemplateContext, g.MapStrStr{
+		"goods-srv":                 req.SrvName,
+		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
+		"goodsProto":                req.ProtoName + "Proto",
+		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+	})
+	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
 }

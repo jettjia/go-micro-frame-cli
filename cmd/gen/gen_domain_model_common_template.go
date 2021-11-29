@@ -1,42 +1,7 @@
 package gen
 
-import (
-	"github.com/jettjia/go-micro-frame-cli/util"
-	"strings"
-)
-
-
-var (
-	baseModel = `package model
-
-import (
-	"database/sql/driver"
-	"encoding/json"
-	"time"
-
-	"gorm.io/gorm"
-)
-
-type GormList []string
-
-func (g GormList) Value() (driver.Value, error) {
-	return json.Marshal(g)
-}
-
-// 实现 sql.Scanner 接口，Scan 将 value 扫描至 Jsonb
-func (g *GormList) Scan(value interface{}) error {
-	return json.Unmarshal(value.([]byte), &g)
-}
-
-type BaseModel struct {
-	ID        uint64`         +"`" +`gorm:"column:created_id;primarykey;type:int;comment:主键" json:"id"` +"`\n"+
-	`CreatedAt time.Time`     +"`"+ `gorm:"column:created_at;comment:创建时间" json:"-"` +"`\n" +
-	`UpdatedAt time.Time`      +"`"+ `gorm:"column:updated_at;type:timestamp not null;default:current_timestamp;comment:修改时间" json:"-"` +"`\n" +
-	`DeletedAt gorm.DeletedAt` +"`"+ `gorm:"column:deleted_at;comment:删除时间" json:"-"` +"`\n" +
-`}
-`
-
-	commonModel = `package model
+const commonTemplateContext = `
+package model
 
 import (
 	"errors"
@@ -47,27 +12,27 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	goods_proto "goods_proto/proto/goods_proto"
+	goodsProto "mall.com/mall-proto/goods"
 )
 
-var OperatorMap = map[goods_proto.Operator]string{
-	goods_proto.Operator_GT:    " > ",
-	goods_proto.Operator_EQUAL: " = ",
-	goods_proto.Operator_LT:    " < ",
-	goods_proto.Operator_NEQ:   " != ",
-	goods_proto.Operator_LIKE:  " like ",
-	goods_proto.Operator_GTE:   " >= ",
-	goods_proto.Operator_LTE:   " <= ",
+var OperatorMap = map[goodsProto.Operator]string{
+	goodsProto.Operator_GT:    " > ",
+	goodsProto.Operator_EQUAL: " = ",
+	goodsProto.Operator_LT:    " < ",
+	goodsProto.Operator_NEQ:   " != ",
+	goodsProto.Operator_LIKE:  " like ",
+	goodsProto.Operator_GTE:   " >= ",
+	goodsProto.Operator_LTE:   " <= ",
 }
 
-func GenerateQueryCondition(conditions []*goods_proto.Query) string {
+func GenerateQueryCondition(conditions []*goodsProto.Query) string {
 	var condition string
 	for k, v := range conditions {
 		if k > 0 {
 			condition += " and "
 		}
 
-		if v.Operator == goods_proto.Operator_LIKE {
+		if v.Operator == goodsProto.Operator_LIKE {
 			condition += fmt.Sprintf("%v%s'%%%v%%'", v.Key, OperatorMap[v.Operator], v.Value)
 		} else {
 			//bool string int
@@ -174,15 +139,5 @@ func BuildWhere(db *gorm.DB, where interface{}) (*gorm.DB, error) {
 		return nil, errors.New("参数有误")
 	}
 	return db, nil
-}`
-)
-
-func DoGenBase(req GenReq)  {
-	util.WriteStringToFileMethod(req.ModelDir+"/base.go", baseModel)
 }
-
-
-func DoGenCommon(req GenReq) {
-	newcommonModel := strings.Replace(commonModel, "goods_proto", req.SrvName, -1)
-	util.WriteStringToFileMethod(req.ModelDir+"/common.go", newcommonModel)
-}
+`

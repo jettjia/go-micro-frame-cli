@@ -6,11 +6,11 @@ import (
 	"os"
 )
 
-func Run(host, user, password, port, db, table, serverName string) {
+func Run(host, user, password, port, db, table, serverName, protoName string) {
 	// 1. 获取表完整结构信息
 	InitDB(host, port, user, password, db)
 
-	genReq := GenInit(serverName, table)
+	genReq := GenInit(serverName, table, protoName)
 
 	mlog.Print("auto gen code start...")
 	// 2. 生成项目文件结构
@@ -35,7 +35,7 @@ func Run(host, user, password, port, db, table, serverName string) {
 	GenProto(genReq)
 
 	// 9. 生成 测试代码
-	GenCeshi() // todo
+	//GenT() // todo
 
 	// 10.格式化代码
 	util.GoFmt(genReq.BaseDir)

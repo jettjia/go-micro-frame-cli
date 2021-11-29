@@ -1,19 +1,14 @@
 package gen
 
-import (
-	"github.com/jettjia/go-micro-frame-cli/util"
-	"strings"
-)
-
-var (
-	serviceStr = `package service
+const serviceTemplateContext = `
+package service
 
 import (
 	"context"
 
-	"goods_srv/domain/model"
-	"goods_srv/domain/repository"
-	goods_srv "goods_srv/proto/goods_srv"
+	"goods-srv/domain/model"
+	"goods-srv/domain/repository"
+	goodsProto "mall.com/mall-proto/goods"
 )
 
 type ICategoryService interface {
@@ -21,7 +16,7 @@ type ICategoryService interface {
 	DeleteCategory(ctx context.Context, ID uint64) error
 	UpdateCategory(context.Context, *model.Category) error
 	FindCategoryByID(ctx context.Context, ID uint64) (*model.Category, error)
-	FindPage(context.Context, []*goods_srv.Query, *goods_srv.PageData) ([]model.Category, *goods_srv.PageData, error)
+	FindPage(context.Context, []*goodsProto.Query, *goodsProto.PageData) ([]model.Category, *goodsProto.PageData, error)
 }
 
 type CategoryService struct {
@@ -53,18 +48,12 @@ func (u *CategoryService) FindCategoryByID(ctx context.Context, ID uint64) (*mod
 }
 
 // 所有
-func (u *CategoryService) FindAll(ctx context.Context, query []*goods_srv.Query) ([]model.Category, error) {
+func (u *CategoryService) FindAll(ctx context.Context, query []*goodsProto.Query) ([]model.Category, error) {
 	return u.CategoryRepository.FindAll(query)
 }
 
 // 分页
-func (u *CategoryService) FindPage(ctx context.Context, query []*goods_srv.Query, reqPage *goods_srv.PageData) ([]model.Category, *goods_srv.PageData, error) {
+func (u *CategoryService) FindPage(ctx context.Context, query []*goodsProto.Query, reqPage *goodsProto.PageData) ([]model.Category, *goodsProto.PageData, error) {
 	return u.CategoryRepository.FindPage(query, reqPage)
-}`
-)
-func GenService(req GenReq) {
-	newService := strings.Replace(serviceStr, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newService = strings.Replace(newService, "goods_srv", req.SrvName, -1)
-
-	util.WriteStringToFileMethod(req.ServiceDir+"/"+req.TableName+"_service.go", newService)
 }
+`

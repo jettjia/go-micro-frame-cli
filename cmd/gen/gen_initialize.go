@@ -1,7 +1,11 @@
 package gen
 
 import (
-	"github.com/jettjia/go-micro-frame-cli/util"
+	"github.com/gogf/gf-cli/v2/library/mlog"
+	"github.com/gogf/gf-cli/v2/library/utils"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gfile"
+	"github.com/gogf/gf/v2/text/gstr"
 	"strings"
 )
 
@@ -13,18 +17,17 @@ package initialize
 import (
 	"google.golang.org/grpc"
 
-	"goods_srv/domain/repository"
-	service2 "goods_srv/domain/service"
-	"goods_srv/handler"
-	goods_srv "goods_srv/proto/goods_srv"
+	"goods-srv/domain/repository"
+	service2 "goods-srv/domain/service"
+	"goods-srv/handler"
+	goodsProto "mall.com/mall-proto/goods"
 )
 
 func RegisterSrv(server *grpc.Server) {
 
 	categoryService := service2.NewCategoryService(repository.NewCategoryRepository())
-	
 
-	goods_srv.RegisterGoodsServer(server, &handler.GoodsServer{
+	goodsProto.RegisterGoodsServer(server, &handler.GoodsServer{
 		CategoryService:          categoryService,
 	})
 }
@@ -32,8 +35,18 @@ func RegisterSrv(server *grpc.Server) {
 )
 
 func GenInitlialize(req GenReq) {
-	newStr := strings.Replace(regSrv, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newStr = strings.Replace(newStr, "goods_srv", req.SrvName, -1)
+	path := req.InitializeDir+"/register_srv.go"
 
-	util.WriteStringToFileMethod(req.InitializeDir+"/registerSrv.go", newStr)
+	context := gstr.ReplaceByMap(regSrv, g.MapStrStr{
+		"goods-srv":                 req.SrvName,
+		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
+		"goodsProto":                req.ProtoName + "Proto",
+		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+	})
+	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
 }

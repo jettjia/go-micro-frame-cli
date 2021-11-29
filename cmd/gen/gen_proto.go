@@ -2,6 +2,10 @@ package gen
 
 import (
 	"fmt"
+	"github.com/gogf/gf-cli/v2/library/mlog"
+	"github.com/gogf/gf-cli/v2/library/utils"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gfile"
 	"strings"
 
 	"github.com/gogf/gf/v2/text/gregex"
@@ -10,39 +14,23 @@ import (
 )
 
 func GenProto(req GenReq) {
-	doGenAutoProto(req) // 生成自动编译proto文件
 	doGenCommon(req)    // 生成proto公共部分
 	doGenSrv(req)       // 生成proto server部分
 	doGenMessage(req)   // 生成表操作的具体逻辑部分
+	doGenAutoProto(req) // 生成自动编译proto文件
 }
 
 func doGenCommon(req GenReq) {
-	str := `syntax = "proto3";
-option go_package = ".;proto";
+	path := req.ProtoDir+"/common.proto"
 
-message Query {
-    string key = 1; //表字段名称
-    string value = 2; //表字段值
-    Operator operator = 3; //判断条件
-}
-
-enum Operator {
-    GT = 0; //大于
-    EQUAL = 1; //等于
-    LT = 2; //小于
-    NEQ = 3; //不等于
-    LIKE = 4; //模糊查询
-    GTE = 5; // 大于等于
-    LTE = 6; // 小于等于
-}
-
-message PageData {
-    uint32 pageSize = 1; // 一页多少条数据
-    uint32 page = 2; // 第几页数据
-    uint32 totalNumber = 3; // 一共多少条数据
-    uint32 totalPage = 4; // 一共多少页
-}`
-	util.WriteStringToFileMethod(req.ProtoDir+"/common.proto", str)
+	context := gstr.ReplaceByMap(protoCommonTemplateContext, g.MapStrStr{
+	})
+	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
 }
 
 func doGenAutoProto(req GenReq) {
@@ -51,27 +39,18 @@ func doGenAutoProto(req GenReq) {
 }
 
 func doGenSrv(req GenReq) {
-	str := `syntax = "proto3";
-import "google/protobuf/empty.proto";
-import public "google/protobuf/timestamp.proto";
-import "common.proto";
-import "category.proto";
+	path := req.ProtoDir+"/"+req.ProtoName+".proto"
 
-option go_package = ".;proto";
-
-service GoodsSrv {
-    // 分类
-    rpc CreateCategory (CategoryInfoRequest) returns (CategoryInfoResponse); // 新建
-    rpc DeleteCategory (CategoryDeleteRequest) returns (google.protobuf.Empty); // 删
-    rpc UpdateCategory (CategoryInfoRequest) returns (google.protobuf.Empty); // 修改
-    rpc FindCategoryById (CategoryFindByIdRequest) returns (CategoryInfoResponse); // 根据id查找
-    rpc QueryPageCategory (CategoryQueryPageRequest) returns (CategoryQueryPageResponse); // 分页List
-}`
-	var newStr string
-	newStr = strings.Replace(str, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newStr = strings.Replace(newStr, "category", req.TableName, -1)
-
-	util.WriteStringToFileMethod(req.ProtoDir+"/"+req.SrvName+".proto", newStr)
+	context := gstr.ReplaceByMap(protoSrvTemplateContext, g.MapStrStr{
+		"Category" : GetJsonTagFromCase(req.TableName, "Camel"),
+		"category": req.TableName,
+	})
+	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
+		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
+	} else {
+		utils.GoFmt(path)
+		mlog.Print("generated:", path)
+	}
 }
 
 func doGenMessage(req GenReq) {

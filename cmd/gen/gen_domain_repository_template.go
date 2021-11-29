@@ -1,12 +1,7 @@
 package gen
 
-import (
-	"github.com/jettjia/go-micro-frame-cli/util"
-	"strings"
-)
-
-var (
-	base = `package repository
+const repositoryBaseTemplate= `
+package repository
 
 import "github.com/jinzhu/gorm"
 
@@ -28,26 +23,18 @@ func Paginate(page, pageSize int) func(db *gorm.DB) *gorm.DB {
 	}
 }
 `
-)
 
-func GenRepository(req GenReq) {
-	// gen base
-	util.WriteStringToFileMethod(req.RepositoryDir+"/base.go", base)
-	// do
-	doGenRepository(req)
-}
-
-var (
-	repStr = `package repository
+const repositoryTemplate = `
+	package repository
 
 import (
 	"errors"
 	"math"
 	"time"
 
-	"goods_srv/domain/model"
-	"goods_srv/global"
-	goods_proto "goods_srv/proto/goods_proto"
+	"goods-srv/domain/model"
+	"goods-srv/global"
+	goodsProto "goods-srv/proto/goods"
 )
 
 type ICategoryRepository interface {
@@ -56,7 +43,7 @@ type ICategoryRepository interface {
 	DeleteCategoryByID(ID uint64) error
 	UpdateCategory(*model.Category) error
 	FindCategoryByID(ID uint64) (*model.Category, error)
-	FindPage([]*goods_proto.Query, *goods_proto.PageData) ([]model.Category, *goods_proto.PageData, error)
+	FindPage([]*goodsProto.Query, *goodsProto.PageData) ([]model.Category, *goodsProto.PageData, error)
 }
 
 type CategoryRepository struct {
@@ -98,11 +85,11 @@ func (u *CategoryRepository) FindCategoryByID(categoryID uint64) (category *mode
 }
 
 // 分页查找
-func (u *CategoryRepository) FindPage(conditions []*goods_proto.Query, reqPage *goods_proto.PageData) ([]model.Category, *goods_proto.PageData, error) {
+func (u *CategoryRepository) FindPage(conditions []*goodsProto.Query, reqPage *goodsProto.PageData) ([]model.Category, *goodsProto.PageData, error) {
 	var condition string
 	var total uint32
 	var categories []model.Category
-	var resPage goods_proto.PageData
+	var resPage goodsProto.PageData
 
 	condition = model.GenerateQueryCondition(conditions)
 
@@ -129,13 +116,5 @@ func (u *CategoryRepository) FindPage(conditions []*goods_proto.Query, reqPage *
 	resPage.TotalPage = uint32(int(math.Ceil(float64(total) / float64(reqPage.PageSize))))
 
 	return categories, &resPage, err
-}`
-)
-
-func doGenRepository(req GenReq) {
-	newRep := strings.Replace(repStr, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	newRep = strings.Replace(newRep, "tableName", req.TableName, -1)
-	newRep = strings.Replace(newRep, "goods_srv", req.SrvName, -1)
-
-	util.WriteStringToFileMethod(req.RepositoryDir+"/"+req.TableName+"_repository.go", newRep)
 }
+`
