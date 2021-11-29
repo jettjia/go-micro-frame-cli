@@ -10,14 +10,17 @@ func RunConsul() {
 	mlog.Print("init consul:" + constant.ConsulVersion + " start...")
 
 	// docker pull image
-	_, err := gproc.ShellExec("sudo docker pull consul:" + constant.ConsulVersion)
-	if err != nil {
-		mlog.Fatal("pull consul image err", err)
-		return
+	has, _ := gproc.ShellExec("docker images -q consul:"+constant.ConsulVersion)
+	if has == "" {
+		_, err := gproc.ShellExec("sudo docker pull consul:" + constant.ConsulVersion)
+		if err != nil {
+			mlog.Fatal("pull consul image err", err)
+			return
+		}
 	}
 
 	// docker run
-	_, err = gproc.ShellExec("sudo docker run --name " + constant.ConsulName + " -d -p 8500:8500 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8600:8600/udp consul consul agent -dev -client=0.0.0.0")
+	_, err := gproc.ShellExec("sudo docker run --name " + constant.ConsulName + " -d -p 8500:8500 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8600:8600/udp consul consul agent -dev -client=0.0.0.0")
 	if err != nil {
 		mlog.Fatal("run consul err", err)
 		return

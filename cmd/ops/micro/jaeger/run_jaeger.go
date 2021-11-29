@@ -10,14 +10,17 @@ func RunJaeger() {
 	mlog.Print("init jaeger:" + constant.JaegerVersion + " start...")
 
 	// docker pull image
-	_, err := gproc.ShellExec("sudo docker pull jaegertracing/all-in-one:" + constant.RedisVersion)
-	if err != nil {
-		mlog.Fatal("pull jaeger image err", err)
-		return
+	has, _ := gproc.ShellExec("docker images -q jaegertracing/all-in-one:"+constant.JaegerVersion)
+	if has == "" {
+		_, err := gproc.ShellExec("sudo docker pull jaegertracing/all-in-one:" + constant.JaegerVersion)
+		if err != nil {
+			mlog.Fatal("pull jaeger image err", err)
+			return
+		}
 	}
 
 	// docker run
-	_, err = gproc.ShellExec(`docker run -d --name ` + constant.JaegerName + ` \
+	_, err := gproc.ShellExec(`docker run -d --name ` + constant.JaegerName + ` \
   -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
   -p 5775:5775/udp \
   -p 6831:6831/udp \
