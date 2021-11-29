@@ -46,7 +46,7 @@ func WriteStringToFileMethod(fileName string, writeInfo string) {
 	}
 	// 将文件写进去
 	if _, err = io.WriteString(f, writeInfo); err != nil {
-		log.Printf("WriteStringToFileMethod2 写入文件失败:%+v", err)
+		log.Printf("WriteStringToFileMethod 写入文件失败:%+v", err)
 		return
 	}
 }

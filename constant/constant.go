@@ -37,4 +37,7 @@ const (
 	//// kong/konga
 	KongVersion = "2.5.0"
 	KongaName = "konga-jett"
+
+	EsVersion = "7.7.1"
+	EsName = "es-jett"
 )
