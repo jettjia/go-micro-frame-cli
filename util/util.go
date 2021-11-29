@@ -80,11 +80,15 @@ var (
 	gofmtPath = gproc.SearchBinaryPath("gofmt")
 )
 
+<<<<<<< HEAD
 // GoFmt 格式化代码
+=======
+>>>>>>> 1fcfa853405bc4f24e354a976d4e93bf9aef4913
 func GoFmt(path string) {
 	if gofmtPath != "" {
 		gproc.ShellExec(fmt.Sprintf(`%s -w -s %s`, gofmtPath, path))
 	}
+<<<<<<< HEAD
 }
 
 // GetOutboundIP 获取当前服务器的IP
@@ -98,4 +102,6 @@ func GetOutboundIP() string {
 	localAddr := conn.LocalAddr().(*net.UDPAddr)
 	fmt.Println(localAddr.String())
 	return localAddr.IP.String()
+=======
+>>>>>>> 1fcfa853405bc4f24e354a976d4e93bf9aef4913
 }
