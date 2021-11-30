@@ -8,10 +8,7 @@ const (
 	GOPROXY = "https://goproxy.cn"
 	GOVERSION = "1.16.7"
 
-<<<<<<< HEAD
 	DockerVersion = "19.03.*"
-=======
->>>>>>> 1fcfa853405bc4f24e354a976d4e93bf9aef4913
 
 	MysqlVersion = "5.7"
 	MysqlName = "mysql-jett"
@@ -21,7 +18,6 @@ const (
 
 	RabbitmqVersion = "3.7.7-management"
 	RabbitmqName = "rabbit-jett"
-<<<<<<< HEAD
 
 	NacosVersion = "latest"
 	NacosName = "nacos-jett"
@@ -44,6 +40,4 @@ const (
 
 	EsVersion = "7.7.1"
 	EsName = "es-jett"
-=======
->>>>>>> 1fcfa853405bc4f24e354a976d4e93bf9aef4913
 )
