@@ -30,7 +30,7 @@ const (
 
 	// install kong/konga
 	//// konga依赖的 postgres数据库信息
-	PostgresName = "kong-database-jett"
+	PostgresName = "kong-database"
 	PostgresDBUser = "kong"
 	PostgresDB = "kong"
 	PostgresPwd = "kong"

@@ -10,14 +10,18 @@ func RunNacos()  {
 	mlog.Print("init nacos:" + constant.NacosVersion + " start...")
 
 	// docker pull image
-	_, err := gproc.ShellExec("sudo docker pull nacos/nacos-server:" + constant.NacosVersion)
-	if err != nil {
-		mlog.Fatal("pull nacos image err", err)
-		return
+	has, _ := gproc.ShellExec("docker images -q nacos/nacos-server:"+constant.NacosVersion)
+	if has == "" {
+		mlog.Print("docker pull nacos:" + constant.NacosVersion)
+		_, err := gproc.ShellExec("sudo docker pull nacos/nacos-server:" + constant.NacosVersion)
+		if err != nil {
+			mlog.Fatal("pull nacos image err", err)
+			return
+		}
 	}
 
 	// docker run
-	_, err = gproc.ShellExec("docker run --name "+constant.NacosName+" -e MODE=standalone -e JVM_XMS=512m -e JVM_XMX=512m -e JVM_XMN=256m -p 8848:8848 -d nacos/nacos-server:"+constant.NacosVersion)
+	_, err := gproc.ShellExec("docker run --name "+constant.NacosName+" -e MODE=standalone -e JVM_XMS=512m -e JVM_XMX=512m -e JVM_XMN=256m -p 8848:8848 -d nacos/nacos-server:"+constant.NacosVersion)
 	if err != nil {
 		mlog.Fatal("run nacos err", err)
 		return

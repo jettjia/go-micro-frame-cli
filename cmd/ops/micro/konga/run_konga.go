@@ -1,6 +1,8 @@
 package konga
 
 import (
+	"fmt"
+	"github.com/gogf/gf/v2/os/gfile"
 	"strings"
 
 	"github.com/gogf/gf-cli/v2/library/mlog"
@@ -16,18 +18,30 @@ func RunKonga() {
 	host := util.GetOutboundIP()
 
 	// 1. 安装 postgresql 和 migrations
+	fmt.Println(`docker run -d --name ` + constant.PostgresName + ` \
+           -p 5432:5432 \
+           -e "POSTGRES_USER=` + constant.PostgresDBUser + `" \
+           -e "POSTGRES_DB=` + constant.PostgresDB + `" \
+           -e "POSTGRES_PASSWORD=` + constant.PostgresPwd + `" \
+           postgres:12`)
 	_, err := gproc.ShellExec(`docker run -d --name ` + constant.PostgresName + ` \
            -p 5432:5432 \
            -e "POSTGRES_USER=` + constant.PostgresDBUser + `" \
-           -e "POSTGRES_DB=kong` + constant.PostgresDB + `" \
+           -e "POSTGRES_DB=` + constant.PostgresDB + `" \
            -e "POSTGRES_PASSWORD=` + constant.PostgresPwd + `" \
            postgres:12`)
 	if err != nil {
 		mlog.Fatal("run postgresql err", err)
 		return
 	}
-
 	// 运行临时Kong容器迁移数据库
+	fmt.Println(`docker run --rm \
+		-e "KONG_DATABASE=postgres" \
+		-e "KONG_PG_HOST=` + host + `" \
+		-e "KONG_PG_PASSWORD=` + constant.PostgresPwd + `" \
+		-e "POSTGRES_USER=` + constant.PostgresDBUser + `" \
+		-e "KONG_CASSANDRA_CONTACT_POINTS=` + constant.PostgresName + `" \
+		kong kong migrations bootstrap`)
 	_, err = gproc.ShellExec(`docker run --rm \
 		-e "KONG_DATABASE=postgres" \
 		-e "KONG_PG_HOST=` + host + `" \
@@ -35,18 +49,21 @@ func RunKonga() {
 		-e "POSTGRES_USER=` + constant.PostgresDBUser + `" \
 		-e "KONG_CASSANDRA_CONTACT_POINTS=` + constant.PostgresName + `" \
 		kong kong migrations bootstrap`)
-	if err != nil {
-		mlog.Fatal("run kong err", err)
-		return
-	}
+	//if err != nil {
+	//	mlog.Fatal("run kong err", err)
+	//	return
+	//}
 
 	// 2. 安装kong
-	_, err = gproc.ShellExec(`curl -Lo kong-`+constant.KongVersion+`.amd64.rpm $( rpm --eval "https://download.konghq.com/gateway-2.x-centos-%{centos_ver}/Packages/k/kong-`+constant.KongVersion+`.el%{centos_ver}.amd64.rpm")`)
-	if err != nil {
-		mlog.Fatal("down kong err", err)
-		return
+	if !util.IsExists("kong-2.5.0.amd64.rpm") {
+		_, err = gproc.ShellExec(`curl -Lo kong-` + constant.KongVersion + `.amd64.rpm $( rpm --eval "https://download.konghq.com/gateway-2.x-centos-%{centos_ver}/Packages/k/kong-` + constant.KongVersion + `.el%{centos_ver}.amd64.rpm")`)
+		if err != nil {
+			mlog.Fatal("down kong-"+constant.KongVersion+".amd64.rpm err", err)
+			return
+		}
 	}
-	_, err = gproc.ShellExec(`sudo yum install kong-`+constant.KongVersion+`.amd64.rpm -y`)
+
+	_, err = gproc.ShellExec(`sudo rpm -ivh install kong-` + constant.KongVersion + `.amd64.rpm -y`)
 	if err != nil {
 		mlog.Fatal("install kong err", err)
 		return
@@ -57,7 +74,11 @@ func RunKonga() {
 
 	// 替换里面的配置
 	newStr := strings.Replace(kong, "10.4.7.71", host, -1)
-	util.WriteStringToFileMethod("/etc/kong/kong.conf", newStr)
+
+	err = gfile.PutContents("/etc/kong/kong.conf", newStr)
+	if err != nil {
+		mlog.Fatal("write /etc/kong/kong.conf err: ", err)
+	}
 
 	// 4. 启动kong
 	_, err = gproc.ShellExec(`kong migrations bootstrap up -c /etc/kong/kong.conf`)
@@ -77,7 +98,7 @@ func RunKonga() {
 	_, _ = gproc.ShellExec(`sudo firewall-cmd --reload`)
 
 	// 6. 安装konga
-	_, err = gproc.ShellExec(`docker run -d -p 1337:1337 --name konga pantsel/konga`)
+	_, err = gproc.ShellExec(`docker run -d -p 1337:1337 --name ` + constant.KongaName + ` pantsel/konga`)
 	if err != nil {
 		mlog.Fatal("konga run err", err)
 		return
@@ -85,8 +106,8 @@ func RunKonga() {
 	// 7. 返回信息
 	mlog.Print("done!")
 
-	mlog.Print("You can visit","http://ip:8001")
-	mlog.Print("Konga backstage","http://ip:1337")
+	mlog.Print("You can visit", "http://ip:8001")
+	mlog.Print("Konga backstage", "http://ip:1337")
 }
 
 var (

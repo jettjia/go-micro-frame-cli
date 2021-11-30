@@ -1,7 +1,7 @@
 package docker
 
 import (
-	"github.com/jettjia/go-micro-frame-cli/util"
+	"github.com/gogf/gf/v2/os/gfile"
 	"log"
 	"strings"
 
@@ -47,6 +47,6 @@ func Run(args []string) {
 	log.Println("create Dockerfile start ...")
 	newStr := strings.Replace(oldStr, "srv-example", imgName, -1)
 
-	util.WriteStringToFileMethod("Dockerfile", newStr)
+	gfile.PutContents("Dockerfile", newStr)
 	log.Println("Done")
 }

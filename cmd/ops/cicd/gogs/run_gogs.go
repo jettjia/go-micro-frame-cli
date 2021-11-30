@@ -2,8 +2,8 @@ package gogs
 
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
+	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gproc"
-	"github.com/jettjia/go-micro-frame-cli/util"
 )
 
 // RunGogs 安装 gogs
@@ -148,7 +148,7 @@ write_buffer = 2M
 [mysqlhotcopy]
 interactive-timeout`
 
-	util.WriteStringToFileMethod("/data/mysql-01/conf/my.cnf", mysqlConf)
+	gfile.PutContents("/data/mysql-01/conf/my.cnf", mysqlConf)
 
 	// install mysql
 	_, err := gproc.ShellExec(`docker run -d \

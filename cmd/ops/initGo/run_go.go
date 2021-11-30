@@ -15,7 +15,7 @@ func RunGo() {
 	mlog.Print("init " + goversion + " start...")
 
 	if !util.IsExists(goZipFile) {
-		mlog.Printf(goZipFile + "downloading... ")
+		mlog.Printf(goZipFile + " downloading... ")
 		_, err := gproc.ShellExec("sudo wget https://studygolang.com/dl/golang/" + goZipFile)
 		if err != nil {
 			mlog.Fatal("down "+goversion+" err", err)
@@ -31,7 +31,7 @@ func RunGo() {
 	_, _ = gproc.ShellExec(`echo -e "export GOPATH=/mnt/hgfs/go_work/wingopath" >> /etc/profile`)
 	_, _ = gproc.ShellExec(`echo -e "export GOBIN=\$GOPATH/bin" >> /etc/profile`)
 	_, _ = gproc.ShellExec(`echo -e "export PATH=\$PATH:\$GOROOT/bin:\$GOPATH/bin" >> /etc/profile`)
-	_, _ = gproc.ShellExec(`source /etc/profile`)
+	_, _ = gproc.ShellExec(`sudo source /etc/profile`)
 	str, _ := gproc.ShellExec(`go version`)
 	mlog.Print(str)
 	mlog.Print("done!")

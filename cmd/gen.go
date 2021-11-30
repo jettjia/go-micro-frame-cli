@@ -33,8 +33,8 @@ func init() {
 	genCmd.Flags().StringVarP(&port, "port", "p", "3306", "Enter MySQL port")
 	genCmd.Flags().StringVarP(&db, "db", "d", "", "Enter MySQL database")
 	genCmd.Flags().StringVarP(&table, "table", "t", "", "Enter MySQL table")
-	genCmd.Flags().StringVarP(&serverName, "serverName", "sn", "", "Enter project server name")
-	genCmd.Flags().StringVarP(&protoName, "protoName", "pn", "", "Enter project protoName")
+	genCmd.Flags().StringVarP(&serverName, "serverName", "s", "", "Enter project server name")
+	genCmd.Flags().StringVarP(&protoName, "protoName", "n", "", "Enter project protoName")
 }
 
 func help() {
@@ -50,10 +50,11 @@ ARGUMENT
 	-p	Enter MySQL port 
 	-d	Enter MySQL database 
 	-t	Enter MySQL table 
-	-sn	Enter project server name
-	-pn	Enter project proto name
+	-s	Enter project server name
+	-n	Enter project proto name
 
 EXAMPLES
-    go-micro-frame-cli gen -a 10.4.7.71 -u root -c root -p 3307 -d zhe_pms -t product -sn goods-srv -pn goods 
+    go-micro-frame-cli gen -a 10.4.7.71 -u root -pwd root -p 3307 -d zhe_pms -t product -s goods-srv -n goods 
+    go-micro-frame-cli gen -addr 10.4.7.71 -user root -pwd root -port 3307 -db zhe_pms -table product -serverName goods-srv -protoName goods 
 `))
 }

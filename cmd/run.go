@@ -18,7 +18,7 @@ var (
 	go-micro-frame-cli run consul
 	go-micro-frame-cli run jaeger
 	go-micro-frame-cli run nacos
-	go-micro-frame-cli run konga
+	go-micro-frame-cli run kong
 
 	go-micro-frame-cli run gogs
 	go-micro-frame-cli run harbor
@@ -65,7 +65,7 @@ EXAMPLES
 	go-micro-frame-cli run consul		[Initialize run,latest]
 	go-micro-frame-cli run nacos		[Initialize nacos,latest]
 	go-micro-frame-cli run jaeger		[Initialize jaeger,latest]
-	go-micro-frame-cli run konga		[Initialize konga,latest]
+	go-micro-frame-cli run kong		[Initialize kong,latest]
 
 	go-micro-frame-cli run gogs		[Initialize gogs]
 	go-micro-frame-cli run harbor		[Initialize harbor]
@@ -73,6 +73,6 @@ EXAMPLES
 
 	go-micro-frame-cli run go		[Initialize go env, 1.16.7]
 	go-micro-frame-cli run docker		[Initialize docker-ce-19.03.*]
-	go-micro-frame-cli run docker-compose		[Initialize docker-compose-1.21.2]
+	go-micro-frame-cli run docker-compose	[Initialize docker-compose-1.21.2]
 `))
 }

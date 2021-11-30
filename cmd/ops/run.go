@@ -41,7 +41,7 @@ func RunOps(args []string) {
 		if serviceName == "jaeger" {
 			jaeger.RunJaeger()
 		}
-		if serviceName == "konga" {
+		if serviceName == "kong" {
 			konga.RunKonga()
 		}
 		if serviceName == "consul" {
@@ -49,6 +49,9 @@ func RunOps(args []string) {
 		}
 		if serviceName == "docker" {
 			docker.RunDocker()
+		}
+		if serviceName == "docker-compose" {
+			docker.RunDockerCompose()
 		}
 	}
 

@@ -10,7 +10,6 @@ import (
 
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/jettjia/go-micro-frame-cli/util"
 )
 
 func GenProto(req GenReq) {
@@ -35,7 +34,7 @@ func doGenCommon(req GenReq) {
 
 func doGenAutoProto(req GenReq) {
 	str := `protoc --go_out=plugins=grpc:./ ./*.proto`
-	util.WriteStringToFileMethod(req.ProtoDir+"/auto.bat", str)
+	gfile.PutContents(req.ProtoDir+"/auto.bat", str)
 }
 
 func doGenSrv(req GenReq) {
@@ -104,7 +103,7 @@ message CategoryQueryPageResponse {
 }`
 
 	newStr := strings.Replace(str, "Category", GetJsonTagFromCase(req.TableName, "Camel"), -1)
-	util.WriteStringToFileMethod(req.ProtoDir+"/"+req.TableName+".proto", newStr)
+	gfile.PutContents(req.ProtoDir+"/"+req.TableName+".proto", newStr)
 }
 
 func genFieldForProtoMessage(field TableColumn) (colStr string) {

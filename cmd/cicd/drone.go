@@ -1,7 +1,7 @@
 package cicd
 
 import (
-	"github.com/jettjia/go-micro-frame-cli/util"
+	"github.com/gogf/gf/v2/os/gfile"
 	"log"
 )
 
@@ -105,6 +105,6 @@ func Run(args []string) {
 
 	log.Println("create .drone start ...")
 
-	util.WriteStringToFileMethod(".drone.yml", oldStr)
+	gfile.PutContents(".drone.yml", oldStr)
 	log.Println("Done")
 }
