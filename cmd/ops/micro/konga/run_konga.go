@@ -55,7 +55,7 @@ func RunKonga() {
 	//}
 
 	// 2. 安装kong
-	if !util.IsExists("kong-2.5.0.amd64.rpm") {
+	if !util.IsExists("kong-"+constant.KongVersion+".amd64.rpm") {
 		_, err = gproc.ShellExec(`curl -Lo kong-` + constant.KongVersion + `.amd64.rpm $( rpm --eval "https://download.konghq.com/gateway-2.x-centos-%{centos_ver}/Packages/k/kong-` + constant.KongVersion + `.el%{centos_ver}.amd64.rpm")`)
 		if err != nil {
 			mlog.Fatal("down kong-"+constant.KongVersion+".amd64.rpm err", err)
@@ -63,7 +63,8 @@ func RunKonga() {
 		}
 	}
 
-	_, err = gproc.ShellExec(`sudo rpm -ivh install kong-` + constant.KongVersion + `.amd64.rpm -y`)
+	fmt.Println(`sudo yum install kong-` + constant.KongVersion + `.amd64.rpm -y`)
+	_, err = gproc.ShellExec(`sudo yum install kong-` + constant.KongVersion + `.amd64.rpm -y`)
 	if err != nil {
 		mlog.Fatal("install kong err", err)
 		return
