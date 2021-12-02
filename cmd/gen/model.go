@@ -34,7 +34,7 @@ type GenReq struct {
 
 func GenInit(srvName, tableName, protoName string) GenReq {
 
-	baseDir := "auto_code/" + srvName
+	baseDir := "auto-code/" + srvName
 	domainDir := baseDir + "/domain"
 	modelDir := domainDir + "/model"
 	repositoryDir := domainDir + "/repository"

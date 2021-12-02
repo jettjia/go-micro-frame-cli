@@ -55,6 +55,5 @@ ARGUMENT
 
 EXAMPLES
     go-micro-frame-cli gen -a 10.4.7.71 -u root -pwd root -p 3307 -d zhe_pms -t product -s goods-srv -n goods 
-    go-micro-frame-cli gen -addr 10.4.7.71 -user root -pwd root -port 3307 -db zhe_pms -table product -serverName goods-srv -protoName goods 
 `))
 }
