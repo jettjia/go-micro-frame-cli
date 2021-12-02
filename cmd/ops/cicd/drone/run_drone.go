@@ -3,6 +3,7 @@ package drone
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/os/gproc"
+	"github.com/jettjia/go-micro-frame-cli/constant"
 
 	"github.com/jettjia/go-micro-frame-cli/util"
 )
@@ -12,9 +13,9 @@ func RunDrone() {
 	_, err := gproc.ShellExec(`docker run --name=drone \
 --volume=/data/drone:/data \
 --env=DRONE_AGENTS_ENABLED=true \
---env=DRONE_GOGS_SERVER=http://10.4.7.100:3000 \
+--env=DRONE_GOGS_SERVER=http://` + util.GetOutboundIP() + `:3000 \
 --env=DRONE_RPC_SECRET=123456key \
---env=DRONE_SERVER_HOST=10.4.7.100:8080 \
+--env=DRONE_SERVER_HOST=` + util.GetOutboundIP() + `:8080 \
 --env=DRONE_SERVER_PROTO=http \
 --env=TZ=PRC \
 --env=DRONE_DATABASE_DRIVER=mysql \
@@ -24,10 +25,9 @@ func RunDrone() {
 --detach=true \
 --restart=always \
 --restart always \
--d drone/drone
-`)
+-d drone/drone:`+constant.DroneVersion)
 	if err != nil {
-		mlog.Fatal("docker run drone:", err)
+		mlog.Fatal("docker run drone err:", err)
 		return
 	}
 
@@ -36,7 +36,7 @@ func RunDrone() {
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /root/.ssh:/root/.ssh \
   -e DRONE_RPC_PROTO=http \
-  -e DRONE_RPC_HOST=10.4.7.100:8080 \
+  -e DRONE_RPC_HOST=` + util.GetOutboundIP() + `:8080 \
   -e DRONE_RPC_SECRET=123456key \
   -e DRONE_RUNNER_CAPACITY=2 \
   -e DRONE_RUNNER_NAME=drone-runner \
@@ -44,9 +44,9 @@ func RunDrone() {
   -e DRONE_DATABASE_DATASOURCE="root:123456@tcp(` + util.GetOutboundIP() + `:3306)/drone?parseTime=true" \
   -p 13000:3000 \
   --restart always \
-  drone/drone-runner-docker`)
+  drone/drone-runner-docker:`+constant.DroneVersion)
 	if err != nil {
-		mlog.Fatal("docker run drone-runner:", err)
+		mlog.Fatal("docker run drone-runner err:", err)
 		return
 	}
 
@@ -59,10 +59,9 @@ func RunDrone() {
   -p 10081:3000 \
   --restart always \
   --name ssh-runner \
-  drone/drone-runner-ssh
-`)
+  drone/drone-runner-ssh`+constant.DroneVersion)
 	if err != nil {
-		mlog.Fatal("docker run ssh-runner:", err)
+		mlog.Fatal("docker run ssh-runner err:", err)
 		return
 	}
 

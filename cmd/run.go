@@ -5,8 +5,10 @@ import (
 
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/jettjia/go-micro-frame-cli/cmd/ops"
 	"github.com/spf13/cobra"
+
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops"
+	"github.com/jettjia/go-micro-frame-cli/constant"
 )
 
 var (
@@ -59,22 +61,22 @@ USAGE
     go-micro-frame-cli run xx
 
 EXAMPLES
-	go-micro-frame-cli run mysql		[Initialize mysql,5.7]
-	go-micro-frame-cli run redis		[Initialize redis,6.2]
-	go-micro-frame-cli run rabbit		[Initialize rabbit,3.7.7-management]
-	go-micro-frame-cli run es		[Initialize elasticsearch,7.7.1]
+	go-micro-frame-cli run mysql		[Initialize mysql,` + constant.MysqlVersion + `]
+	go-micro-frame-cli run redis		[Initialize redis,` + constant.RedisVersion + `]
+	go-micro-frame-cli run rabbit		[Initialize rabbit, ` + constant.RabbitmqVersion + `]
+	go-micro-frame-cli run es		[Initialize elasticsearch, ` + constant.EsVersion + `]
 
-	go-micro-frame-cli run consul		[Initialize run,latest]
-	go-micro-frame-cli run nacos		[Initialize nacos,latest]
-	go-micro-frame-cli run jaeger		[Initialize jaeger,latest]
-	go-micro-frame-cli run kong		[Initialize kong,latest]
+	go-micro-frame-cli run consul		[Initialize consul,` + constant.ConsulVersion + `]
+	go-micro-frame-cli run nacos		[Initialize nacos,` + constant.NacosVersion + `]
+	go-micro-frame-cli run jaeger		[Initialize jaeger,` + constant.JaegerVersion + `]
+	go-micro-frame-cli run kong		[Initialize kong,` + constant.KongVersion + `]
 
-	go-micro-frame-cli run gogs		[Initialize gogs]
-	go-micro-frame-cli run harbor		[Initialize harbor]
-	go-micro-frame-cli run drone		[Initialize drone]
+	go-micro-frame-cli run gogs		[Initialize gogs, ` + constant.GogsVersion + `]
+	go-micro-frame-cli run harbor		[Initialize harbor, ` + constant.HarborVersion + `]
+	go-micro-frame-cli run drone		[Initialize drone, ` + constant.DroneVersion + `]
 
-	go-micro-frame-cli run go		[Initialize go env, 1.16.7]
-	go-micro-frame-cli run docker		[Initialize docker-ce-19.03.*]
-	go-micro-frame-cli run docker-compose	[Initialize docker-compose-1.21.2]
+	go-micro-frame-cli run go		[Initialize go env, ` + constant.GOVERSION + `]
+	go-micro-frame-cli run docker		[Initialize docker, ` + constant.DockerVersion + `]
+	go-micro-frame-cli run docker-compose	[Initialize docker-compose, ` + constant.DockerComposeVersion + `]
 `))
 }

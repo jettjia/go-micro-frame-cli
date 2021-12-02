@@ -2,6 +2,7 @@ package ops
 
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/cicd/drone"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/cicd/gogs"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/cicd/harbor"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/initGo"
@@ -23,17 +24,21 @@ func RunOps(args []string) {
 	{
 		if serviceName == "mysql" {
 			mysql.RunMysql()
+			return
 		}
 
 		if serviceName == "redis" {
 			redis.RunRedis()
+			return
 		}
 
 		if serviceName == "rabbit" || serviceName == "rabbitmq" {
 			rabbitmq.RunRabbit()
+			return
 		}
 		if serviceName == "es" || serviceName == "elasticsearch" {
 			es.RunEs()
+			return
 		}
 	}
 
@@ -41,21 +46,27 @@ func RunOps(args []string) {
 	{
 		if serviceName == "nacos" {
 			nacos.RunNacos()
+			return
 		}
 		if serviceName == "jaeger" {
 			jaeger.RunJaeger()
+			return
 		}
 		if serviceName == "kong" {
 			konga.RunKonga()
+			return
 		}
 		if serviceName == "consul" {
 			consul.RunConsul()
+			return
 		}
 		if serviceName == "docker" {
 			docker.RunDocker()
+			return
 		}
 		if serviceName == "docker-compose" {
 			docker.RunDockerCompose()
+			return
 		}
 	}
 
@@ -63,9 +74,15 @@ func RunOps(args []string) {
 	{
 		if serviceName == "gogs" {
 			gogs.RunGogs()
+			return
 		}
 		if serviceName == "harbor" {
 			harbor.RunHarbor()
+			return
+		}
+		if serviceName == "drone" {
+			drone.RunDrone()
+			return
 		}
 	}
 
@@ -73,6 +90,7 @@ func RunOps(args []string) {
 	{
 		if serviceName == "go" {
 			initGo.RunGo()
+			return
 		}
 	}
 
