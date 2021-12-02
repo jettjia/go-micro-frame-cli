@@ -4,6 +4,7 @@ import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gproc"
+	"github.com/jettjia/go-micro-frame-cli/constant"
 )
 
 // RunGogs 安装 gogs
@@ -13,10 +14,46 @@ func RunGogs() {
 }
 
 func installMysql() {
-	gproc.ShellExec("sudo mkdir -p /data/mysql-01/conf")
-	gproc.ShellExec("sudo mkdir -p /data/mysql-01/data")
+	gproc.ShellExec("sudo mkdir -p /mydata/mysql-01/conf")
+	gproc.ShellExec("sudo mkdir -p /mydata/mysql-01/data")
 
-	mysqlConf := `[client]
+	gfile.PutContents("/mydata/mysql-01/conf/my.cnf", mysqlConf)
+
+	// install mysql
+	_, err := gproc.ShellExec(`docker run -d \
+-p 3306:3306 \
+-v /etc/localtime:/etc/localtime:ro \
+-v /mydata/mysql-01/data:/var/lib/mysql \
+-v /mydata/mysql-01/conf:/etc/mysql/conf.d \
+-v /mydata/mysql-01/conf/my.cnf:/etc/mysql/my.cnf \
+--env MYSQL_ROOT_PASSWORD=123456 \
+--name mysql5.7-01 mysql:` + constant.MysqlVersion)
+	if err != nil {
+		mlog.Fatal("docker run mysql: ", err)
+		return
+	}
+
+	mlog.Print("mysql done!")
+}
+
+func installGogs() {
+	_, err := gproc.ShellExec(`docker run -d \
+--name=` + constant.GogsName + ` \
+-p 10022:22 -p 3000:3000 \
+-v /data/gogs:/data \
+gogs/gogs:` + constant.GogsVersion)
+
+	if err != nil {
+		mlog.Fatal("docker run gogos: ", err)
+		return
+	}
+
+	mlog.Print("http://ip:3000")
+
+	mlog.Print("gogs done!")
+}
+
+var mysqlConf = `[client]
 port= 3306
 socket  = /tmp/mysql.sock
 #default-character-set = utf8mb4
@@ -147,39 +184,3 @@ write_buffer = 2M
 
 [mysqlhotcopy]
 interactive-timeout`
-
-	gfile.PutContents("/data/mysql-01/conf/my.cnf", mysqlConf)
-
-	// install mysql
-	_, err := gproc.ShellExec(`docker run -d \
--p 3306:3306 \
--v /etc/localtime:/etc/localtime:ro \
--v /data/mysql-01/data:/var/lib/mysql \
--v /data/mysql-01/conf:/etc/mysql/conf.d \
--v /data/mysql-01/conf/my.cnf:/etc/mysql/my.cnf \
---env MYSQL_ROOT_PASSWORD=123456 \
---name mysql5.7-01 mysql:5.7`)
-	if err != nil {
-		mlog.Fatal("docker run mysql: ", err)
-		return
-	}
-
-	mlog.Print("mysql done!")
-}
-
-func installGogs() {
-	_, err := gproc.ShellExec(`docker run -d \
---name=gogs \
--p 10022:22 -p 3000:3000 \
--v /data/gogs:/data \
-gogs/gogs`)
-
-	if err != nil {
-		mlog.Fatal("docker run gogos: ", err)
-		return
-	}
-
-	mlog.Print("http://ip:3000")
-
-	mlog.Print("gogs done!")
-}

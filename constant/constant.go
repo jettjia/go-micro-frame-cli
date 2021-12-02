@@ -10,6 +10,7 @@ const (
 
 	DockerVersion = "19.03.*"
 
+	//////////////////	service	//////////////////////////////
 	MysqlVersion = "5.7"
 	MysqlName = "mysql-jett"
 
@@ -18,6 +19,11 @@ const (
 
 	RabbitmqVersion = "3.7.7-management"
 	RabbitmqName = "rabbit-jett"
+
+	EsVersion = "7.7.1"
+	EsName = "es-jett"
+
+	//////////////////	micro	//////////////////////////////
 
 	NacosVersion = "latest"
 	NacosName = "nacos-jett"
@@ -38,6 +44,7 @@ const (
 	KongVersion = "2.5.0"
 	KongaName = "konga-jett"
 
-	EsVersion = "7.7.1"
-	EsName = "es-jett"
+	//////////////////	cicd	//////////////////////////////
+	GogsVersion = "latest"
+	GogsName = "gogs-jett"
 )
