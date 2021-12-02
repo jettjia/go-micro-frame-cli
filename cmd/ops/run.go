@@ -10,6 +10,7 @@ import (
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/micro/konga"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/micro/nacos"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/docker"
+	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/es"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/mysql"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/rabbitmq"
 	"github.com/jettjia/go-micro-frame-cli/cmd/ops/service/redis"
@@ -30,6 +31,9 @@ func RunOps(args []string) {
 
 		if serviceName == "rabbit" || serviceName == "rabbitmq" {
 			rabbitmq.RunRabbit()
+		}
+		if serviceName == "es" || serviceName == "elasticsearch" {
+			es.RunEs()
 		}
 	}
 
