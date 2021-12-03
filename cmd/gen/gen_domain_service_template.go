@@ -47,11 +47,6 @@ func (u *CategoryService) FindCategoryByID(ctx context.Context, ID uint64) (*mod
 	return u.CategoryRepository.FindCategoryByID(ID)
 }
 
-// 所有
-func (u *CategoryService) FindAll(ctx context.Context, query []*goodsProto.Query) ([]model.Category, error) {
-	return u.CategoryRepository.FindAll(query)
-}
-
 // 分页
 func (u *CategoryService) FindPage(ctx context.Context, query []*goodsProto.Query, reqPage *goodsProto.PageData) ([]model.Category, *goodsProto.PageData, error) {
 	return u.CategoryRepository.FindPage(query, reqPage)

@@ -8,7 +8,7 @@ func Test_gen(t *testing.T) {
 	password := "root"
 	port := "3307"
 	db := "zhe_pms"
-	table := "category_attr"
+	table := "product_log"
 	serverName := "goods-srv"
 	protoName := "goods"
 	Run(host, user, password, port, db, table, serverName, protoName)

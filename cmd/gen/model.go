@@ -28,6 +28,7 @@ type GenReq struct {
 	HandlerDir    string
 	InitializeDir string
 	ProtoDir      string
+	TestDir       string
 
 	TableColumns []TableColumn
 }
@@ -42,6 +43,7 @@ func GenInit(srvName, tableName, protoName string) GenReq {
 	handlerDir := baseDir + "/handler"
 	initializeDir := baseDir + "/initialize"
 	protoDir := baseDir + "/proto" + "/" + protoName
+	testDir := baseDir + "/test"
 
 	return GenReq{
 		TableName:     tableName,
@@ -55,6 +57,7 @@ func GenInit(srvName, tableName, protoName string) GenReq {
 		HandlerDir:    handlerDir,
 		InitializeDir: initializeDir,
 		ProtoDir:      protoDir,
+		TestDir:       testDir,
 		TableColumns:  GetTableCol(tableName),
 	}
 }

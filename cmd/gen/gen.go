@@ -35,7 +35,7 @@ func Run(host, user, password, port, db, table, serverName, protoName string) {
 	GenProto(genReq)
 
 	// 9. 生成 测试代码
-	//GenT() // todo
+	GenT(genReq)
 
 	// 10.格式化代码
 	util.GoFmt(genReq.BaseDir)
@@ -51,4 +51,5 @@ func CreateDir(req GenReq) {
 	os.MkdirAll(req.HandlerDir, os.ModePerm)
 	os.MkdirAll(req.InitializeDir, os.ModePerm)
 	os.MkdirAll(req.ProtoDir, os.ModePerm)
+	os.MkdirAll(req.TestDir, os.ModePerm)
 }

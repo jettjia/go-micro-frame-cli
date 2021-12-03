@@ -84,20 +84,20 @@ import public "google/protobuf/timestamp.proto";
 	str += `}`
 	str += "\n"
 
-	str += `message CategoryDeleteRequest {
+	str += `message DeleteCategoryRequest {
     uint64 id = 1;
 }
 
-message CategoryFindByIdRequest {
+message FindCategoryRequest {
     uint64 id = 1;
 }
 
-message CategoryQueryPageRequest {
+message QueryPageCategoryRequest {
     repeated Query conditions = 1;
     PageData page = 2;
 }
 
-message CategoryQueryPageResponse {
+message QueryPageCategoryResponse {
     repeated CategoryInfoResponse pageList = 1;
     PageData page = 2;
 }`

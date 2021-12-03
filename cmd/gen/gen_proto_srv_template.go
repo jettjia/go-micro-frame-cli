@@ -12,9 +12,9 @@ option go_package = ".;proto";
 service GoodsSrv {
     // 分类
     rpc CreateCategory (CategoryInfoRequest) returns (CategoryInfoResponse); // 新建
-    rpc DeleteCategory (CategoryDeleteRequest) returns (google.protobuf.Empty); // 删
+    rpc DeleteCategory (DeleteCategoryRequest) returns (google.protobuf.Empty); // 删
     rpc UpdateCategory (CategoryInfoRequest) returns (google.protobuf.Empty); // 修改
-    rpc FindCategoryById (CategoryFindByIdRequest) returns (CategoryInfoResponse); // 根据id查找
-    rpc QueryPageCategory (CategoryQueryPageRequest) returns (CategoryQueryPageResponse); // 分页List
+    rpc FindCategoryById (FindCategoryRequest) returns (CategoryInfoResponse); // 根据id查找
+    rpc QueryPageCategory (QueryPageCategoryRequest) returns (QueryPageCategoryResponse); // 分页
 }
 `

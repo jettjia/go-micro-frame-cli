@@ -83,16 +83,16 @@ func (s *GoodsServer) FindCategoryById(ctx context.Context, req *goodsProto.Find
 }
 
 // 分页查找
-func (s *GoodsServer) QueryPageCategory(ctx context.Context, req *goodsProto.QueryPageRequest) (*goodsProto.QueryPageResponse, error) {
-	var res goodsProto.QueryPageResponse
-	categories, resPage, err := s.CategoryService.FindPage(ctx, req.Conditions, req.Page)
+func (s *GoodsServer) QueryPageCategory(ctx context.Context, req *goodsProto.QueryPageCategoryRequest) (*goodsProto.QueryPageCategoryResponse, error) {
+	var res goodsProto.QueryPageCategoryResponse
+	categoryList, resPage, err := s.CategoryService.FindPage(ctx, req.Conditions, req.Page)
 	if err != nil {
 		return nil, err
 	}
 
 	res.Page = resPage
 
-	for _, v := range categories {
+	for _, v := range categoryList {
 		info := &goodsProto.CategoryInfoResponse{
 			// todo
 			// Id = v.ID
