@@ -34,7 +34,7 @@ import (
 
 	"goods-srv/domain/model"
 	"goods-srv/global"
-	goodsProto "goods-srv/proto/goods"
+	goodsProto "mall.com/mall-proto/goods"
 )
 
 type ICategoryRepository interface {

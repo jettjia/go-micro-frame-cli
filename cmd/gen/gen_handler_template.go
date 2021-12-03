@@ -25,7 +25,7 @@ import (
 	"strconv"
 
 	"goods-srv/domain/model"
-	goodsProto "goods-srv/proto/goods"
+	goodsProto "mall.com/mall-proto/goods"
 )
 
 // 创建
