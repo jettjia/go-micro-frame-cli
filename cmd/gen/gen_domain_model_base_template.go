@@ -23,7 +23,7 @@ func (g *GormList) Scan(value interface{}) error {
 }
 
 type BaseModel struct {
-	ID        uint64`         +"`" +`gorm:"column:created_id;primarykey;type:int;comment:主键" json:"id"` +"`\n"+
+	Id        uint64`         +"`" +`gorm:"column:created_id;primarykey;type:int;comment:主键" json:"id"` +"`\n"+
 	`CreatedAt time.Time`     +"`"+ `gorm:"column:created_at;comment:创建时间" json:"-"` +"`\n" +
 	`UpdatedAt time.Time`      +"`"+ `gorm:"column:updated_at;type:timestamp not null;default:current_timestamp;comment:修改时间" json:"-"` +"`\n" +
 	`DeletedAt gorm.DeletedAt` +"`"+ `gorm:"column:deleted_at;comment:删除时间" json:"-"` +"`\n" +

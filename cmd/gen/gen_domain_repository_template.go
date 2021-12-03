@@ -65,7 +65,7 @@ func (u *CategoryRepository) InitTable() error {
 // 创建
 func (u *CategoryRepository) CreateCategory(category *model.Category) (categoryID uint64, err error) {
 	category.CreatedAt = time.Now()
-	return category.ID, global.DB.Create(category).Error
+	return category.Id, global.DB.Create(category).Error
 }
 
 // 根据ID删除
