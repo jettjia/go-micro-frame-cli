@@ -2,12 +2,12 @@ package gen
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/gogf/gf-cli/v2/library/mlog"
 	"github.com/gogf/gf-cli/v2/library/utils"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
-	"strings"
-
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 )
@@ -20,7 +20,7 @@ func GenProto(req GenReq) {
 }
 
 func doGenCommon(req GenReq) {
-	path := req.ProtoDir+"/common.proto"
+	path := req.ProtoDir + "/common.proto"
 
 	context := gstr.ReplaceByMap(protoCommonTemplateContext, g.MapStrStr{
 	})
@@ -38,10 +38,10 @@ func doGenAutoProto(req GenReq) {
 }
 
 func doGenSrv(req GenReq) {
-	path := req.ProtoDir+"/"+req.ProtoName+".proto"
+	path := req.ProtoDir + "/" + req.ProtoName + ".proto"
 
 	context := gstr.ReplaceByMap(protoSrvTemplateContext, g.MapStrStr{
-		"Category" : GetJsonTagFromCase(req.TableName, "Camel"),
+		"Category": GetJsonTagFromCase(req.TableName, "Camel"),
 		"category": req.TableName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
@@ -66,19 +66,18 @@ import public "google/protobuf/timestamp.proto";
 	str += "\n"
 	for k, v := range req.TableColumns {
 		typeName := genFieldForProtoMessage(v)
-		str += "    "+fmt.Sprintf("%s %s = %d;//%s", typeName, v.Field, k+1, v.Comment) + "\n"
+		str += "    " + fmt.Sprintf("%s %s = %d;//%s", typeName, GetJsonTagFromCase(v.Field, "CamelLower"), k+1, v.Comment) + "\n"
 	}
 	str += "\n"
 	str += `}`
 	str += "\n"
-
 
 	// res
 	str += `message CategoryInfoResponse {`
 	str += "\n"
 	for k, v := range req.TableColumns {
 		typeName := genFieldForProtoMessage(v)
-		str += "    "+fmt.Sprintf("%s %s = %d;//%s", typeName, v.Field, k+1, v.Comment) + "\n"
+		str += "    " + fmt.Sprintf("%s %s = %d;//%s", typeName, GetJsonTagFromCase(v.Field, "CamelLower"), k+1, v.Comment) + "\n"
 	}
 	str += "\n"
 	str += `}`

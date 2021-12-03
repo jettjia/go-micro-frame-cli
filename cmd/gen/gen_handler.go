@@ -39,6 +39,10 @@ func doHandler(req GenReq) {
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
 		"goodsProto":                req.ProtoName + "Proto",
 		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"{{create}}":                doGenHandlerCreate(req),
+		"{{update}}":                doGenHandlerUpdate(req),
+		"{{find}}":                  doGenHandlerFindById(req),
+		"{{pageOne}}":               doGenHandlerPageOne(req),
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
@@ -46,4 +50,74 @@ func doHandler(req GenReq) {
 		utils.GoFmt(path)
 		mlog.Print("generated:", path)
 	}
+}
+
+// doGenHandlerCreate 创建
+func doGenHandlerCreate(req GenReq) (str string) {
+	if len(req.TableColumns) == 0 {
+		return
+	}
+
+	modelName := GetJsonTagFromCase(req.TableName, "CamelLower")
+
+	for _, v := range req.TableColumns {
+		if v.Field == "id" || v.Field == "created_at" || v.Field == "updated_at" || v.Field == "deleted_at" {
+			continue
+		}
+		str += modelName + "." + GetJsonTagFromCase(v.Field, "Camel") + "= req." + GetJsonTagFromCase(v.Field, "Camel") + "\n"
+	}
+
+	return
+}
+
+// doGenHandlerUpdate 修改
+func doGenHandlerUpdate(req GenReq) (str string) {
+	if len(req.TableColumns) == 0 {
+		return
+	}
+
+	modelName := GetJsonTagFromCase(req.TableName, "CamelLower")
+
+	for _, v := range req.TableColumns {
+		if v.Field == "created_at" || v.Field == "updated_at" || v.Field == "deleted_at" {
+			continue
+		}
+		str += modelName + "." + GetJsonTagFromCase(v.Field, "Camel") + "= req." + GetJsonTagFromCase(v.Field, "Camel") + "\n"
+	}
+
+	return
+}
+
+// doGenHandlerFindById 单条
+func doGenHandlerFindById(req GenReq) (str string) {
+	if len(req.TableColumns) == 0 {
+		return
+	}
+
+	modelName := GetJsonTagFromCase(req.TableName, "CamelLower")
+
+	for _, v := range req.TableColumns {
+		if v.Field == "created_at" || v.Field == "updated_at" || v.Field == "deleted_at" {
+			continue
+		}
+		str += "reply." + GetJsonTagFromCase(v.Field, "Camel") + "=" + modelName + "." + GetJsonTagFromCase(v.Field, "Camel") + "\n"
+	}
+
+	return
+}
+
+// doGenHandlerPageOne page
+func doGenHandlerPageOne(req GenReq) (str string) {
+	if len(req.TableColumns) == 0 {
+		return
+	}
+
+	for _, v := range req.TableColumns {
+		if v.Field == "created_at" || v.Field == "updated_at" || v.Field == "deleted_at" {
+			continue
+		}
+		str += GetJsonTagFromCase(v.Field, "Camel") + ":" + "v." + GetJsonTagFromCase(v.Field, "Camel") + ",\n"
+	}
+
+	return
 }

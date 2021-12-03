@@ -32,10 +32,7 @@ import (
 // 创建
 func (s *GoodsServer) CreateCategory(ctx context.Context, req *goodsProto.CategoryInfoRequest) (*goodsProto.CategoryInfoResponse, error) {
 	category := &model.Category{}
-	// todo
-	// category.Pid = req.Pid
-
-
+	{{create}}
 	id, err := s.CategoryService.AddCategory(ctx, category)
 	if err != nil {
 		return nil, status.Error(codes.Aborted, "CreateCategory func error")
@@ -57,9 +54,7 @@ func (s *GoodsServer) DeleteCategory(ctx context.Context, req *goodsProto.Delete
 // 修改
 func (s *GoodsServer) UpdateCategory(ctx context.Context, req *goodsProto.CategoryInfoRequest) (*emptypb.Empty, error) {
 	category := &model.Category{}
-	// todo
-	// category.Pid = req.Pid
-
+	{{update}}
 	err := s.CategoryService.UpdateCategory(ctx, category)
 	if err != nil {
 		return &emptypb.Empty{}, status.Error(codes.Aborted, "UpdateCategory func error")
@@ -77,9 +72,7 @@ func (s *GoodsServer) FindCategoryById(ctx context.Context, req *goodsProto.Find
 		return nil, status.Error(codes.NotFound, "FindCategoryById id  "+strconv.Itoa(int(req.Id))+" not exists")
 	}
 
-	// todo
-	// reply.Id = category.ID
-
+	{{find}}
 	return reply, nil
 }
 
@@ -95,8 +88,7 @@ func (s *GoodsServer) QueryPageCategory(ctx context.Context, req *goodsProto.Que
 
 	for _, v := range categoryList {
 		info := &goodsProto.CategoryInfoResponse{
-			// todo
-			// Id = v.ID
+			{{pageOne}}
 		}
 		res.PageList = append(res.PageList, info)
 	}
