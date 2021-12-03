@@ -54,7 +54,7 @@ func NewCategoryRepository() ICategoryRepository {
 }
 
 func tableName() string {
-	return "tableName"
+	return "table_name"
 }
 
 // 初始化表

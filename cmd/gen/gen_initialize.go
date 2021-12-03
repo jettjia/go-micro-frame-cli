@@ -40,7 +40,7 @@ func GenInitlialize(req GenReq) {
 	context := gstr.ReplaceByMap(regSrv, g.MapStrStr{
 		"goods-srv":                 req.SrvName,
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
-		"categoryService":           req.TableName+"Service",
+		"categoryService":           GetJsonTagFromCase(req.TableName, "CamelLower")+"Service",
 		"goodsProto":                req.ProtoName + "Proto",
 		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})

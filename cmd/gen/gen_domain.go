@@ -220,7 +220,7 @@ func doGenRepository(req GenReq) {
 	context := gstr.ReplaceByMap(repositoryTemplate, g.MapStrStr{
 		"goods-srv":                 req.SrvName,
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
-		"tableName":                 req.TableName,
+		"table_name":                req.TableName,
 		"goodsProto":                req.ProtoName + "Proto",
 		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})

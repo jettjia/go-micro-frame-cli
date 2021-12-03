@@ -34,7 +34,7 @@ func doHandler(req GenReq) {
 	path := req.HandlerDir + "/" + req.TableName + ".go"
 
 	context := gstr.ReplaceByMap(handlerTemplateContext, g.MapStrStr{
-		"category":                  req.TableName,
+		"category":                  GetJsonTagFromCase(req.TableName, "CamelLower"),
 		"goods-srv":                 req.SrvName,
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
 		"goodsProto":                req.ProtoName + "Proto",
