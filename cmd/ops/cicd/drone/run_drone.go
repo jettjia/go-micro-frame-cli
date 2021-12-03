@@ -2,9 +2,9 @@ package drone
 
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
-	"github.com/gogf/gf/os/gproc"
-	"github.com/jettjia/go-micro-frame-cli/constant"
+	"github.com/gogf/gf/v2/os/gproc"
 
+	"github.com/jettjia/go-micro-frame-cli/constant"
 	"github.com/jettjia/go-micro-frame-cli/util"
 )
 

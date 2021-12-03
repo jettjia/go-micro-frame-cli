@@ -2,7 +2,8 @@ package gen
 
 import (
 	"github.com/gogf/gf-cli/v2/library/mlog"
-	"github.com/gogf/gf/util/gconv"
+	"github.com/gogf/gf/v2/util/gconv"
+
 	mySql "github.com/jettjia/go-micro-frame/service/gmysql"
 )
 

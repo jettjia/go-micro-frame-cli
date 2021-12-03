@@ -1,8 +1,9 @@
 package install
 
 import (
-	"github.com/gogf/gf/os/gproc"
 	"runtime"
+
+	"github.com/gogf/gf/v2/os/gproc"
 
 	"github.com/jettjia/go-micro-frame-cli/util"
 )
