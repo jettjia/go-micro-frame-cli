@@ -5,7 +5,7 @@ package handler
 
 import (
 	"goods-srv/domain/service"
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 type GoodsServer struct {
@@ -26,7 +26,7 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"goods-srv/domain/model"
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 // 创建

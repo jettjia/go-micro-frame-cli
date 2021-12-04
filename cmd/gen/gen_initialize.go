@@ -20,7 +20,7 @@ import (
 	"goods-srv/domain/repository"
 	service2 "goods-srv/domain/service"
 	"goods-srv/handler"
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 func RegisterSrv(server *grpc.Server) {
@@ -42,7 +42,7 @@ func GenInitlialize(req GenReq) {
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
 		"categoryService":           GetJsonTagFromCase(req.TableName, "CamelLower")+"Service",
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)

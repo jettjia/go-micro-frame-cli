@@ -8,7 +8,7 @@ import (
 
 	"goods-srv/domain/model"
 	"goods-srv/domain/repository"
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 type ICategoryService interface {

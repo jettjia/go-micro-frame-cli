@@ -23,7 +23,7 @@ func runGen(req GenReq) {
 	context := gstr.ReplaceByMap(tContext, g.MapStrStr{
 		"CategoryAttr":              GetJsonTagFromCase(req.TableName, "Camel"),
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
@@ -39,7 +39,7 @@ func runGenClient(req GenReq) {
 	context := gstr.ReplaceByMap(tClientContext, g.MapStrStr{
 		"192.168.106.1":             util.GetOutboundIP(),
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)

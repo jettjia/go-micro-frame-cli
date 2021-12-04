@@ -6,7 +6,7 @@ package test
 import (
 	"google.golang.org/grpc"
 
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 var GrpcClient goodsProto.GoodsClient
@@ -30,7 +30,7 @@ import (
 	"fmt"
 	"testing"
 
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 // 创建-属性

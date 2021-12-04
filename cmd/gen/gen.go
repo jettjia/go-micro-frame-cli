@@ -37,7 +37,10 @@ func Run(host, user, password, port, db, table, serverName, protoName string) {
 	// 9. 生成 测试代码
 	GenT(genReq)
 
-	// 10.格式化代码
+	// 10.生成 web端代码
+	GenWeb(genReq)
+
+	// 11.格式化代码
 	util.GoFmt(genReq.BaseDir)
 
 	mlog.Print("done!")

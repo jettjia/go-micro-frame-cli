@@ -32,7 +32,7 @@ func doGenModelCommon(req GenReq) {
 	path := req.ModelDir + "/common.go"
 	context := gstr.ReplaceByMap(commonTemplateContext, g.MapStrStr{
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
@@ -223,7 +223,7 @@ func doGenRepository(req GenReq) {
 		"category":                  GetJsonTagFromCase(req.TableName, "CamelLower"),
 		"table_name":                req.TableName,
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
@@ -241,7 +241,7 @@ func GenService(req GenReq) {
 		"goods-srv":                 req.SrvName,
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)

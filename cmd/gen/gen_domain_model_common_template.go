@@ -12,7 +12,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	goodsProto "mall.com/mall-proto/goods"
+	goodsProto "mall.com/mall-common/proto/goods"
 )
 
 var OperatorMap = map[goodsProto.Operator]string{
