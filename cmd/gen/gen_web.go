@@ -1,7 +1,7 @@
 package gen
 
 import (
-	"fmt"
+	"regexp"
 	"strings"
 
 	"github.com/gogf/gf-cli/v2/library/mlog"
@@ -145,20 +145,19 @@ func generateStructFieldForDto(field TableColumn) (colStr string) {
 	fieldName = GetJsonTagFromCase(field.Field, "Camel")
 	typeName = generateStructFieldTypeName(field)
 
-	if field.Null == "YES" {
-		fmt.Println("=====================")
-		if fieldName == "uint64" || fieldName == "int64" || fieldName == "uint32" || fieldName == "int32" || fieldName == "int" {
-			vTyp = `v:"integer|min:1"`
-		} else if fieldName == "string" {
-			vTyp = `v:"length:0,?"`
-		} else if fieldName == "float32" || fieldName == "float64" {
-			vTyp = `v:"float"`
-		} else if fieldName == "time.Time" {
-			vTyp = `v:"datetime"`
-		}
+	if typeName == "uint64" || typeName == "int64" || typeName == "uint32" || typeName == "int32" || typeName == "int" {
+		vTyp = `v:"integer|min:1"`
+	} else if typeName == "string" {
+		rgx := regexp.MustCompile(`\((.*?)\)`)
+		rs := rgx.FindStringSubmatch(field.Type)
+		vTyp = `v:"length:0,` + rs[1] + `"`
+	} else if typeName == "float32" || typeName == "float64" {
+		vTyp = `v:"float"`
+	} else if typeName == "time.Time" {
+		vTyp = `v:"datetime"`
 	}
 
-	node = `dc:"` + field.Comment + `"`
+	node = ` dc:"` + field.Comment + `"`
 
 	colStr = fieldName + "    " + typeName + " `" + vTyp + node + "`"
 
