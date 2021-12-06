@@ -32,9 +32,9 @@ import (
 	"math"
 	"time"
 
-	"goods-srv/domain/model"
-	"goods-srv/global"
 	goodsProto "mall.com/mall-common/proto/goods"
+	"mall.com/srv/goods-srv/domain/model"
+	"mall.com/srv/goods-srv/global"
 )
 
 type ICategoryRepository interface {

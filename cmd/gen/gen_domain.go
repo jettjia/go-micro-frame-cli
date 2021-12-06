@@ -32,7 +32,7 @@ func doGenModelCommon(req GenReq) {
 	path := req.ModelDir + "/common.go"
 	context := gstr.ReplaceByMap(commonTemplateContext, g.MapStrStr{
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-common/proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
@@ -77,6 +77,51 @@ type ` + GetJsonTagFromCase(req.TableName, "Camel") + ` struct {
 // jsonTag, json:"cate_name"`
 func generateStructFieldForModel(field TableColumn) (colStr string) {
 	var fieldName, typeName, ormTag, jsonTag, node string
+
+	typeName = generateStructFieldTypeName(field)
+
+	// 字段名称 如CategoryName
+	fieldName = GetJsonTagFromCase(field.Field, "Camel")
+
+	// jsonTag 如 json:"cate_name"
+	jsonTag = `json:"` + field.Field + `"`
+
+	// note 如 // 分类名称
+	node = " //" + field.Comment
+
+	// ormTag 如 gorm:"column:category_name; type:varchar(32); not null; default:0; comment:分类名称;"
+	ormTag = `gorm:"column:` + field.Field
+
+	if gstr.ContainsI(field.Key, "pri") {
+		ormTag += " ,primary"
+	}
+	if gstr.ContainsI(field.Key, "uni") {
+		ormTag += " ,unique"
+	}
+
+	ormTag += "; type:" + field.Type + ";"
+
+	if field.Null == "YES" {
+		ormTag += "not null;"
+	}
+
+	if field.Default != "" {
+		ormTag += "default: " + field.Default + ";"
+	}
+
+	if field.Comment != "" {
+		ormTag += "comment:" + field.Comment + ";"
+	}
+
+	ormTag += `"`
+
+	colStr = fieldName + "    " + typeName + "    " + "`" + ormTag + " " + jsonTag + "`" + node
+
+	return
+}
+
+func generateStructFieldTypeName(field TableColumn) string {
+	var  typeName string
 	t, _ := gregex.ReplaceString(`\(.+\)`, "", field.Type)
 	t = gstr.Split(gstr.Trim(t), " ")[0]
 	t = gstr.ToLower(t)
@@ -131,44 +176,7 @@ func generateStructFieldForModel(field TableColumn) (colStr string) {
 		}
 	}
 
-	// 字段名称 如CategoryName
-	fieldName = GetJsonTagFromCase(field.Field, "Camel")
-
-	// jsonTag 如 json:"cate_name"
-	jsonTag = `json:"` + field.Field + `"`
-
-	// note 如 // 分类名称
-	node = " //" + field.Comment
-
-	// ormTag 如 gorm:"column:category_name; type:varchar(32); not null; default:0; comment:分类名称;"
-	ormTag = `gorm:"column:` + field.Field
-
-	if gstr.ContainsI(field.Key, "pri") {
-		ormTag += " ,primary"
-	}
-	if gstr.ContainsI(field.Key, "uni") {
-		ormTag += " ,unique"
-	}
-
-	ormTag += "; type:" + field.Type + ";"
-
-	if field.Null == "YES" {
-		ormTag += "not null;"
-	}
-
-	if field.Default != "" {
-		ormTag += "default: " + field.Default + ";"
-	}
-
-	if field.Comment != "" {
-		ormTag += "comment:" + field.Comment + ";"
-	}
-
-	ormTag += `"`
-
-	colStr = fieldName + "    " + typeName + "    " + "`" + ormTag + " " + jsonTag + "`" + node
-
-	return
+	return typeName
 }
 
 func GetJsonTagFromCase(str, caseStr string) string {
@@ -223,7 +231,7 @@ func doGenRepository(req GenReq) {
 		"category":                  GetJsonTagFromCase(req.TableName, "CamelLower"),
 		"table_name":                req.TableName,
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-common/proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)
@@ -241,7 +249,7 @@ func GenService(req GenReq) {
 		"goods-srv":                 req.SrvName,
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-common/proto/" + req.ProtoName,
 	})
 	if err := gfile.PutContents(path, strings.TrimSpace(context)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)

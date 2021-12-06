@@ -38,7 +38,7 @@ func doHandler(req GenReq) {
 		"goods-srv":                 req.SrvName,
 		"Category":                  GetJsonTagFromCase(req.TableName, "Camel"),
 		"goodsProto":                req.ProtoName + "Proto",
-		"mall.com/mall-common/proto/goods": "mall.com/mall-proto/" + req.ProtoName,
+		"mall.com/mall-common/proto/goods": "mall.com/mall-common/proto/" + req.ProtoName,
 		"{{create}}":                doGenHandlerCreate(req),
 		"{{update}}":                doGenHandlerUpdate(req),
 		"{{find}}":                  doGenHandlerFindById(req),

@@ -4,8 +4,8 @@ const handlerBaseTemplateContext = `
 package handler
 
 import (
-	"goods-srv/domain/service"
 	goodsProto "mall.com/mall-common/proto/goods"
+	"mall.com/srv/goods-srv/domain/service"
 )
 
 type GoodsServer struct {
@@ -25,8 +25,8 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"goods-srv/domain/model"
 	goodsProto "mall.com/mall-common/proto/goods"
+	"mall.com/srv/goods-srv/domain/model"
 )
 
 // 创建

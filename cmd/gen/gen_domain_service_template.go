@@ -6,9 +6,9 @@ package service
 import (
 	"context"
 
-	"goods-srv/domain/model"
-	"goods-srv/domain/repository"
 	goodsProto "mall.com/mall-common/proto/goods"
+	"mall.com/srv/goods-srv/domain/model"
+	"mall.com/srv/goods-srv/domain/repository"
 )
 
 type ICategoryService interface {
